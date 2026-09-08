@@ -52,10 +52,30 @@ body {
 
 .profile-card {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
     background-color: white;
     border-radius: 10px;
     padding: 30px;
     gap: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.skills {
+    padding: 50px;
+    text-align: center;
+}
+ 
+.grid-wrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+ 
+.skill-item {
+    background: #333;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
 }
