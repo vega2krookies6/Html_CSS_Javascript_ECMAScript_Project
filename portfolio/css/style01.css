@@ -3,10 +3,10 @@
     /* 모든 요소의 기본 여백(margin, padding)을 0으로 초기화합니다. */
     margin: 0;
     padding: 0;
-    
+
     /* 요소의 크기를 계산할 때 테두리(border)와 안쪽 여백(padding)을 너비에 포함시킵니다. 
        이걸 안 하면 패딩을 줄 때마다 박스가 커져서 레이아웃이 깨지기 쉬워요! */
-    box-sizing: border-box; 
+    box-sizing: border-box;
 }
 
 body {
@@ -21,9 +21,9 @@ body {
     /* Flexbox를 활성화하여 자식 요소(로고, 메뉴)를 가로로 배치합니다. */
     display: flex;
     /* 자식 요소들을 양쪽 끝으로 밀어냅니다. (이름은 왼쪽, 메뉴는 오른쪽) */
-    justify-content: space-between; 
+    justify-content: space-between;
     /* 자식 요소들을 세로 방향에서 정중앙에 위치시킵니다. */
-    align-items: center; 
+    align-items: center;
     /* 안쪽 여백: 위아래 20px, 좌우 50px을 줍니다. */
     padding: 20px 50px;
     /* 배경은 어두운 회색(#333), 글자는 흰색(white)으로 설정합니다. */
@@ -37,9 +37,24 @@ body {
     height: 60vh;
     /* 내부 문구들을 정중앙에 배치하기 위해 Flexbox를 사용합니다. */
     display: flex;
-    justify-content: center; /* 가로 중앙 정렬 */
-    align-items: center;     /* 세로 중앙 정렬 */
+    justify-content: center;
+    /* 가로 중앙 정렬 */
+    align-items: center;
+    /* 세로 중앙 정렬 */
     /* 배경은 흰색으로, 텍스트는 가운데 정렬합니다. */
     background-color: #fff;
     text-align: center;
+}
+
+.container {
+    padding: 50px;
+}
+
+.profile-card {
+    display: flex;
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    gap: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
