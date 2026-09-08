@@ -25,6 +25,7 @@
 .fbox.narrow { width: 260px; }
 
 /* --- 4-3 flex-direction --- */
+.dir-row     { flex-direction: row }
 .dir-row-rev { flex-direction: row-reverse; }
 .dir-col     { flex-direction: column; align-items: flex-start; }
 .dir-col-rev { flex-direction: column-reverse; align-items: flex-start; }

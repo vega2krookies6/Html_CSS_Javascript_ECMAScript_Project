@@ -12,7 +12,9 @@ body {
 
 .header {
     display: flex;
+    /* 주요축의 정렬 */
     justify-content: space-between;
+    /* 교차축의 정렬 */
     align-items: center;
     padding: 20px 50px;
     background-color: #333;
