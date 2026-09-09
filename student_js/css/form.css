@@ -86,6 +86,22 @@
           /* 마우스 오버 시 배경색을 더 진한 파란색으로 변경 */
       }
 
+      /* 버튼 그룹 컨테이너 스타일 */
+      .button-group {
+          margin-top: 15px;
+          /* 위쪽 여백 */
+          display: flex;
+          /* 플렉스 레이아웃 사용 */
+          align-items: center;
+          /* 수직 중앙 정렬 */
+          /* 수직 중앙 정렬 */
+          flex-wrap: wrap;
+          /* 화면이 작을 때 줄바꿈 허용 */
+          gap: 10px;
+          /* 요소들 간의 간격 */
+      }
+
+
       /* 테이블(table) 요소의 스타일을 설정합니다 */
       table {
           width: 100%;
