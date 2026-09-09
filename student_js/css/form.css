@@ -94,7 +94,6 @@
           /* 플렉스 레이아웃 사용 */
           align-items: center;
           /* 수직 중앙 정렬 */
-          /* 수직 중앙 정렬 */
           flex-wrap: wrap;
           /* 화면이 작을 때 줄바꿈 허용 */
           gap: 10px;
