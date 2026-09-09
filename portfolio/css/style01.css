@@ -86,3 +86,17 @@ body {
     background: #eee;
     margin-top: 50px;
 }
+
+nav a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+ 
+nav span {
+    margin-left: 25px;
+}
+ 
+nav a:hover {
+    color: #00adb5;
+}
