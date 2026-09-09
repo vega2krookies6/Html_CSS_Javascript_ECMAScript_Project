@@ -79,3 +79,10 @@ body {
     text-align: center;
     border-radius: 5px;
 }
+
+.footer {
+    text-align: center;
+    padding: 30px;
+    background: #eee;
+    margin-top: 50px;
+}
