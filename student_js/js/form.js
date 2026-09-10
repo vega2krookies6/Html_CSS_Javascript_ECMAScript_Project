@@ -1,4 +1,3 @@
-import { createStudent } from '../../04_es6/step/4-6_studentApi';
 // 전역 변수
 const API_BASE_URL = "http://localhost:8080";
 
