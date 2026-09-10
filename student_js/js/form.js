@@ -94,9 +94,9 @@ function renderStudentTable(students) {
                     <td>${student.name}</td>
                     <td>${student.studentNumber}</td>
                     <td>${student.detail?.address ?? "-"}</td>
-                    <td>${student.detail ? student.detail.phoneNumber : "-"}</td>
-                    <td>${student.detail ? student.detail.email || "-" : "-"}</td>
-                    <td>${student.detail ? student.detail.dateOfBirth || "-" : "-"}</td>
+                    <td>${student.detail?.phoneNumber ?? "-"}</td>
+                    <td>${student.detail?.email ?? "-"}</td>
+                    <td>${student.detail?.dateOfBirth ?? "-"}</td>
                     <td>
                         <button class="edit-btn" onclick="editStudent(${student.id})">수정</button>
                         <button class="delete-btn" onclick="deleteStudent(${student.id})">삭제</button>
