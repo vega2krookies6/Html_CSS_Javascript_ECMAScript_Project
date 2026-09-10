@@ -7,14 +7,19 @@ const studentTableBody = document.getElementById("studentTableBody");
 
 // 초기화
 document.addEventListener("DOMContentLoaded", function () {
-    loadStudents();    
+    loadStudents();
 });
 
 // 폼 제출 이벤트 핸들러
 studentForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(studentForm);
-    console.log(formData);
+    
+    console.log(Object.fromEntries(formData));
+    for (const [key, value] of formData.entries()) {
+        console.log(key, "=", value);
+    }
+
 });
 
 // 학생 목록 로드 함수
