@@ -1,3 +1,4 @@
+import { createStudent } from '../../04_es6/step/4-6_studentApi';
 // 전역 변수
 const API_BASE_URL = "http://localhost:8080";
 
@@ -31,9 +32,21 @@ studentForm.addEventListener("submit", function (e) {
             dateOfBirth: formData.get("dateOfBirth") || null,
         },
     };
-    console.log(studentData);
+    // 유효성 검사
+    if (!validateStudent(studentData)) {
+        return;
+    }
+    console.log("유효한 데이터:", studentData);
+
+    // 서버로 데이터 전송
+    createStudent(studentData);
 
 });
+
+// 학생 등록 함수 
+function createStudent(studentData) {
+    console.log("학생 등록...");
+}
 
 // 학생 목록 로드 함수
 function loadStudents() {
