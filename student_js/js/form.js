@@ -98,3 +98,9 @@ function isValidEmail(email) {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
 }
+//학번 유효성 검사
+function isValidStudentNumber(studentNumber) {
+    const studentNumberRegex = /^[A-Z]{2}\d{3}$/i;
+    // 공백이 포함되어 들어올 수 있으므로 trim()을 사용해 양끝 공백 제거 후 검사
+    return studentNumberRegex.test(studentNumber.trim());
+}
