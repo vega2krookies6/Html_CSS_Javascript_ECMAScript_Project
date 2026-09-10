@@ -50,6 +50,20 @@ function createStudent(studentData) {
 // 학생 목록 로드 함수
 function loadStudents() {
     console.log("학생 목록 로드 중...");
+    fetch(`${API_BASE_URL}/api/students`)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("학생 목록을 불러오는데 실패했습니다.");
+            }
+            return response.json();
+        })
+        .then((students) => {
+            renderStudentTable(students);
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+            alert("학생 목록을 불러오는데 실패했습니다.");
+        });
 }
 
 // 학생 데이터 유효성 검사
