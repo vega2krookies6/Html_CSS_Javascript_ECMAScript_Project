@@ -42,8 +42,34 @@ studentForm.addEventListener("submit", function (e) {
 
 });
 
+// async/await 사용한 학생 등록 함수 
+async function createStudent(studentData) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/students`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(studentData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            const defaultMsg = response.status === 409 ? "이미 등록된 학번입니다." : "학생 등록에 실패했습니다.";
+            throw new Error(data.message || defaultMsg);
+        }
+
+        alert("학생이 성공적으로 등록되었습니다.");
+        studentForm.reset();
+        loadStudents();
+        return data;
+    } catch (error) {
+        console.error("Error:", error.message);
+        alert(error.message);
+    }
+}
+
 // 학생 등록 함수 
-function createStudent(studentData) {
+function createStudent_then(studentData) {
     console.log("학생 등록...");
     fetch(`${API_BASE_URL}/api/students`, {
         method: "POST",
@@ -69,7 +95,7 @@ function createStudent(studentData) {
             return response.json();
         })
         .then((result) => {
-            showSuccess("학생이 성공적으로 등록되었습니다.");
+            alert("학생이 성공적으로 등록되었습니다.");
             studentForm.reset();
             loadStudents(); // 목록 새로고침
         })
