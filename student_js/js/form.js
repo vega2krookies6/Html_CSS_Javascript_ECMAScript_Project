@@ -45,6 +45,39 @@ studentForm.addEventListener("submit", function (e) {
 // 학생 등록 함수 
 function createStudent(studentData) {
     console.log("학생 등록...");
+    fetch(`${API_BASE_URL}/api/students`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(studentData),
+    })
+        .then(async (response) => {
+            if (!response.ok) {
+                // 응답 본문을 읽어서 에러 메시지 추출
+                const errorData = await response.json();
+
+                // 상태 코드와 메시지를 확인하여 적절한 에러 처리
+                if (response.status === 409) {
+                    // 중복 오류 처리
+                    throw new Error(errorData.message || "이미 등록된 학번입니다.");
+                } else {
+                    // 기타 오류 처리
+                    throw new Error(errorData.message || "학생 등록에 실패했습니다.");
+                }
+            }
+            return response.json();
+        })
+        .then((result) => {
+            showSuccess("학생이 성공적으로 등록되었습니다.");
+            studentForm.reset();
+            loadStudents(); // 목록 새로고침
+        })
+        .catch((error) => {
+            console.error("Error:", error.message);
+            //alert(error.message);  // 실제 서버에서 온 에러 메시지 표시
+            showError(error.message);
+        });
 }
 
 // 학생 목록 로드 함수
@@ -89,7 +122,7 @@ function renderStudentTable(students) {
     students.forEach((student) => {
         const row = document.createElement("tr");
 
-        //console.log(student.detail?.address ?? "-");
+        //${student.detail ? student.detail.email || "-" : "-"}
         row.innerHTML = `
                     <td>${student.name}</td>
                     <td>${student.studentNumber}</td>
