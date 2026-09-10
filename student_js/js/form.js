@@ -60,52 +60,21 @@ function validateStudent(student) {
         return false;
     }
 
-    // if (!student.studentNumber) {
-    //     alert("학번을 입력해주세요.");
-    //     return false;
-    // }
-    // const studentNumberPattern = /^[A-Za-z0-9]+$/;
-    // if (!studentNumberPattern.test(student.studentNumber)) {
-    //     alert("학번은 영문과 숫자만 입력 가능합니다.");
-    //     return false;
-    // }
-
-    // if (!student.studentNumber) {
-    //     alert("학번을 입력해주세요.");
-    //     return false;
-    // } else if(!isValidStudentNumber(student.studentNumber)){
-    //      alert("올바른 학번 형식이 아닙니다.");
-    //     return false;
-    // }
-
     if (!student.studentNumber || !isValidStudentNumber(student.studentNumber)) {
-        alert("학번을 입력하지 않으시거나 올바른 형식)이 아닙니다.");
+        alert("학번을 입력하지 않거나 올바른 형식이 아닙니다.");
         return false;
     }
-
-    // 학번 형식 검사 (예: 영문과 숫자 조합)
-    // if (student.studentNumber && !isValidStudentNumber(student.studentNumber)){
-    //     alert("올바른 학번 형식이 아닙니다.");
-    //     return false;
-    // }
-
-
-    if (!student.detailRequest.phoneNumber) {
-        alert("전화번호를 입력해주세요.");
-        return false;
-    }
-
 
     // 전화번호 형식 검사
     const phonePattern = /^[0-9-\s]+$/;
-    if (!phonePattern.test(student.detailRequest.phoneNumber)) {
-        alert("올바른 전화번호 형식이 아닙니다.");
+    if (!student.detailRequest.phoneNumber || !phonePattern.test(student.detailRequest.phoneNumber)) {
+        alert("전화번호를 입력하지 않거나 올바른 전화번호 형식이 아닙니다.");
         return false;
     }
 
     // 이메일 형식 검사 (입력된 경우에만)
-    if (student.detailRequest.email && !isValidEmail(student.detailRequest.email)) {
-        alert("올바른 이메일 형식이 아닙니다.");
+    if (!student.detailRequest.email || !isValidEmail(student.detailRequest.email)) {
+        alert("이메일를 입력하지 않거나 올바른 이메일 형식이 아닙니다.");
         return false;
     }
 
