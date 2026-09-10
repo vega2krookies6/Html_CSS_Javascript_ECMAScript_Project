@@ -54,7 +54,8 @@ async function createStudent(studentData) {
         const data = await response.json();
 
         if (!response.ok) {
-            const defaultMsg = response.status === 409 ? "이미 등록된 학번입니다." : "학생 등록에 실패했습니다.";
+            const defaultMsg = response.status === 409 ? "이미 등록된 학번(이메일,전화번호)입니다." : "학생 등록에 실패했습니다.";
+            // resonponse.json() 로 받은 객체가 백엔드에서는 ErrorObject
             throw new Error(data.message || defaultMsg);
         }
 
@@ -64,6 +65,7 @@ async function createStudent(studentData) {
         return data;
     } catch (error) {
         console.error("Error:", error.message);
+        studentForm.reset();
         alert(error.message);
     }
 }
