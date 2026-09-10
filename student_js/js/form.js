@@ -50,6 +50,7 @@ function createStudent(studentData) {
 // 학생 목록 로드 함수
 function loadStudents() {
     console.log("학생 목록 로드 중...");
+    //Promise 객체 반환
     fetch(`${API_BASE_URL}/api/students`)
         .then((response) => {
             if (!response.ok) {
@@ -58,13 +59,31 @@ function loadStudents() {
             return response.json();
         })
         .then((students) => {
-            renderStudentTable(students);
+            console.log(students);
+            //renderStudentTable(students);
         })
         .catch((error) => {
             console.error("Error:", error);
             alert("학생 목록을 불러오는데 실패했습니다.");
         });
 }
+
+//async/await 구문을 사용한 학생 목록 로드 함수
+async function loadStudents() {
+    console.log("학생 목록 로드 중...");
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/students`);
+        if (!response.ok) throw new Error("학생 목록을 불러오는데 실패했습니다.");
+
+        const students = await response.json();
+        console.log(students);
+        //renderStudentTable(students);
+    } catch (error) {
+        console.error("Error:", error);
+        alert(error.message);
+    }
+}
+
 
 // 학생 데이터 유효성 검사
 function validateStudent(student) {
