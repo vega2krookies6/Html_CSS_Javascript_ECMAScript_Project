@@ -89,10 +89,11 @@ function renderStudentTable(students) {
     students.forEach((student) => {
         const row = document.createElement("tr");
 
+        //console.log(student.detail?.address ?? "-");
         row.innerHTML = `
                     <td>${student.name}</td>
                     <td>${student.studentNumber}</td>
-                    <td>${student.detail ? student.detail.address : "-"}</td>
+                    <td>${student.detail?.address ?? "-"}</td>
                     <td>${student.detail ? student.detail.phoneNumber : "-"}</td>
                     <td>${student.detail ? student.detail.email || "-" : "-"}</td>
                     <td>${student.detail ? student.detail.dateOfBirth || "-" : "-"}</td>
