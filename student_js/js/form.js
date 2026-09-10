@@ -79,7 +79,7 @@ function validateStudent(student) {
     // }
 
     if (!student.studentNumber || !isValidStudentNumber(student.studentNumber)) {
-        alert("학번을 입력하지 않으시거나 올바른 형식이 아닙니다.");
+        alert("학번을 입력하지 않으시거나 올바른 형식)이 아닙니다.");
         return false;
     }
 
