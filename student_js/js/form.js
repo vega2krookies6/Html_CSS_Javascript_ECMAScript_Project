@@ -14,11 +14,24 @@ document.addEventListener("DOMContentLoaded", function () {
 studentForm.addEventListener("submit", function (e) {
     e.preventDefault();
     const formData = new FormData(studentForm);
-    
-    console.log(Object.fromEntries(formData));
-    for (const [key, value] of formData.entries()) {
-        console.log(key, "=", value);
-    }
+
+    // console.log(Object.fromEntries(formData));
+
+    // console.log("entries()")
+    // for (const [key, value] of formData.entries()) {
+    //     console.log(key, "=", value);
+    // }
+
+    const studentData = {
+        name: formData.get("name").trim(),
+        studentNumber: formData.get("studentNumber").trim(),
+        detailRequest: {
+            address: formData.get("address").trim(),
+            phoneNumber: formData.get("phoneNumber").trim(),
+            email: formData.get("email").trim() || null,
+            dateOfBirth: formData.get("dateOfBirth") || null,
+        },
+    };
 
 });
 
