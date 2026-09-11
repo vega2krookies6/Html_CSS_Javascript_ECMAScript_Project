@@ -7,6 +7,7 @@ let editingStudentId = null;
 const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
 const submitButton = studentForm.querySelector('button[type="submit"]');
+const cancelButton = studentForm.querySelector('.cancel-btn');
 
 //에러메시지와 로딩메시지 
 const loadingMessage = document.getElementById('loadingMessage');
