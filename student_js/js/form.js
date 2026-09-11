@@ -119,6 +119,31 @@ async function editStudent(studentId) {
         console.error('Error:', error.message);
         showError(error.message);
     }
+};
+
+async function updateStudent(studentId, studentData) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/students/${studentId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(studentData),
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            const defaultMsg = response.status === 409 ? "학생정보가 중복됩니다." : "학생정보 수정에 실패했습니다.";
+            throw new Error(data.message || defaultMsg);
+        }
+
+        resetForm();
+        showSuccess('학생 정보가 성공적으로 수정되었습니다.');
+        loadStudents();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        showError(error.message);
+    }
 }
 
 // async/await 사용한 학생 등록 함수 
