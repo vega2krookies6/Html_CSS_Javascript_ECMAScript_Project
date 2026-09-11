@@ -1,9 +1,12 @@
 // 전역 변수
 const API_BASE_URL = "http://localhost:8080";
+// 현재 수정 중인 학생 ID
+let editingStudentId = null; 
 
 // DOM 요소 참조
 const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
+const submitButton = studentForm.querySelector('button[type="submit"]');
 
 //에러메시지와 로딩메시지 
 const loadingMessage = document.getElementById('loadingMessage');
@@ -20,6 +23,7 @@ function showError(message) {
     formError.textContent = message;
     formError.style.display = 'block';
     formError.style.color = '#dc3545';
+    messageTimer = setTimeout(clearMessages, MESSAGE_TIMEOUT);
 }
 
 // 성공 메시지 표시 - MESSAGE_TIMEOUT 뒤에 저절로 사라진다
@@ -97,14 +101,14 @@ async function createStudent(studentData) {
             throw new Error(data.message || defaultMsg);
         }
 
-        alert("학생이 성공적으로 등록되었습니다.");
+        showSuccess("학생이 성공적으로 등록되었습니다.");
         studentForm.reset();
         loadStudents();
         return data;
     } catch (error) {
         console.error("Error:", error.message);
         //studentForm.reset();
-        alert(error.message);
+        showError(error.message);
     }
 }
 
