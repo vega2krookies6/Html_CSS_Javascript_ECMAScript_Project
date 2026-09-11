@@ -5,6 +5,16 @@ const API_BASE_URL = "http://localhost:8080";
 const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
 
+//에러메시지와 로딩메시지 
+const loadingMessage = document.getElementById('loadingMessage');
+const formError = document.getElementById('formError');
+
+// 성공 메시지가 저절로 사라지기까지의 시간(ms)
+const MESSAGE_TIMEOUT = 3000;
+// 자동 초기화 예약. 새 메시지가 오면 이전 예약을 취소한다.
+let messageTimer = null;
+
+
 // 초기화
 document.addEventListener("DOMContentLoaded", function () {
     loadStudents();
