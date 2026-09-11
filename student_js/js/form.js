@@ -1,7 +1,7 @@
 // 전역 변수
 const API_BASE_URL = "http://localhost:8080";
 // 현재 수정 중인 학생 ID
-let editingStudentId = null; 
+let editingStudentId = null;
 
 // DOM 요소 참조
 const studentForm = document.getElementById("studentForm");
@@ -47,7 +47,7 @@ function resetForm() {
     studentForm.reset();
     editingStudentId = null;
     submitButton.textContent = '학생 등록';
-    clearMessages();      
+    clearMessages();
 }
 
 
@@ -152,21 +152,21 @@ async function createStudent(studentData) {
 // 학생 삭제 함수
 async function deleteStudent(studentId) {
     if (!confirm('정말로 이 학생을 삭제하시겠습니까?')) return;
-    
+
     try {
         const response = await fetch(`${API_BASE_URL}/api/students/${studentId}`, {
             method: 'DELETE'
         });
-        
+
         if (!response.ok) {
-            const errorData =  await response.json().catch(() => ({})); 
-            const defaultMsg = response.status === 404 ? "존재하지 않는 학생입니다.":"학생 삭제에 실패했습니다.";
+            const errorData = await response.json().catch(() => ({}));
+            const defaultMsg = response.status === 404 ? "존재하지 않는 학생입니다." : "학생 삭제에 실패했습니다.";
             throw new Error(errorData.message || defaultMsg)
         }
-        
+
         showSuccess('학생이 성공적으로 삭제되었습니다.');
         loadStudents(); // 목록 새로고침
-    } catch(error) {
+    } catch (error) {
         console.error('Error:', error);
         showError(error.message);
     }
@@ -222,7 +222,7 @@ function loadStudents_then() {
             //JSON.parse()
             return response.json();
         })
-        .then((students) => {            
+        .then((students) => {
             //console.log(students);
             renderStudentTable(students);
         })
@@ -243,7 +243,14 @@ async function loadStudents() {
         renderStudentTable(students);
     } catch (error) {
         console.error("Error:", error);
-        alert(error.message);
+        showError(error.message);
+        studentTableBody.innerHTML = `
+                <tr>
+                    <td colspan="7" style="text-align: center; color: #dc3545;">
+                        오류: 데이터를 불러올 수 없습니다.
+                    </td>
+                </tr>
+            `;
     }
 }
 
