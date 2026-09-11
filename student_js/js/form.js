@@ -98,6 +98,10 @@ studentForm.addEventListener("submit", function (e) {
 
 });
 
+cancelButton.addEventListener('click', function() {
+    studentForm.reset();
+});
+
 // 학생 수정전에 데이터를 로드하는 함수
 async function editStudent(studentId) {
     try {
@@ -121,7 +125,7 @@ async function editStudent(studentId) {
         editingStudentId = studentId;
         submitButton.textContent = '학생 수정';
         studentForm.scrollIntoView({ behavior: 'smooth' });
-        cancelButton.style.display = 'block';
+        cancelButton.style.display = 'inline-block';
     } catch (error) {
         console.error('Error:', error.message);
         showError(error.message);
