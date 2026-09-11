@@ -42,6 +42,14 @@ function clearMessages() {
     formError.textContent = '';
     formError.style.display = 'none';
 }
+// Form 초기화
+function resetForm() {
+    studentForm.reset();
+    editingStudentId = null;
+    submitButton.textContent = '학생 등록';
+    clearMessages();      
+}
+
 
 // 초기화
 document.addEventListener("DOMContentLoaded", function () {
@@ -84,6 +92,35 @@ studentForm.addEventListener("submit", function (e) {
 
 });
 
+// 학생 수정전에 데이터를 로드하는 함수
+async function editStudent(studentId) {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/students/${studentId}`);
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            const defaultMsg = response.status === 404 ? "존재하지 않는 학생입니다." : "학생 정보를 불러오는데 실패했습니다.";
+            throw new Error(data.message || defaultMsg);
+        }
+
+        // 폼에 데이터 채우기 (옵셔널 체이닝으로 간소화)
+        studentForm.name.value = data.name || '';
+        studentForm.studentNumber.value = data.studentNumber || '';
+        studentForm.address.value = data.detail?.address || '';
+        studentForm.phoneNumber.value = data.detail?.phoneNumber || '';
+        studentForm.email.value = data.detail?.email || '';
+        studentForm.dateOfBirth.value = data.detail?.dateOfBirth || '';
+
+        // 수정 모드로 설정
+        editingStudentId = studentId;
+        submitButton.textContent = '학생 수정';
+        studentForm.scrollIntoView({ behavior: 'smooth' });
+    } catch (error) {
+        console.error('Error:', error.message);
+        showError(error.message);
+    }
+}
+
 // async/await 사용한 학생 등록 함수 
 async function createStudent(studentData) {
     try {
@@ -102,7 +139,7 @@ async function createStudent(studentData) {
         }
 
         showSuccess("학생이 성공적으로 등록되었습니다.");
-        studentForm.reset();
+        resetForm();
         loadStudents();
         return data;
     } catch (error) {
