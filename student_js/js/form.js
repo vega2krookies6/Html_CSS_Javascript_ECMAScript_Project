@@ -122,14 +122,12 @@ async function deleteStudent(studentId) {
             const defaultMsg = response.status === 404 ? "존재하지 않는 학생입니다.":"학생 삭제에 실패했습니다.";
             throw new Error(errorData.message || defaultMsg)
         }
-
-        alert('학생이 성공적으로 삭제되었습니다.')
-        //showSuccess('학생이 성공적으로 삭제되었습니다.');
+        
+        showSuccess('학생이 성공적으로 삭제되었습니다.');
         loadStudents(); // 목록 새로고침
     } catch(error) {
         console.error('Error:', error);
-        //showError(error.message);
-        alert(error.message)
+        showError(error.message);
     }
 }
 
