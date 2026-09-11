@@ -74,6 +74,33 @@ async function createStudent(studentData) {
     }
 }
 
+// 학생 삭제 함수
+async function deleteStudent(studentId) {
+    if (!confirm('정말로 이 학생을 삭제하시겠습니까?')) return;
+    
+    try {
+        const response = fetch(`${API_BASE_URL}/api/students/${studentId}`, {
+            method: 'DELETE'
+        });
+
+        // 응답 본문을  읽어오기
+        const data = await response.json();
+        
+        if (!response.ok) {
+            const defaultMsg = response.status === 404 ? "존재하지 않는 학생입니다.":"학생 삭제에 실패했습니다.";
+            throw new Error(data.message || defaultMsg)
+        }
+
+        alert('학생이 성공적으로 삭제되었습니다.')
+        //showSuccess('학생이 성공적으로 삭제되었습니다.');
+        loadStudents(); // 목록 새로고침
+    } catch(error) {
+        console.error('Error:', error);
+        //showError(error.message);
+        alert(error.message)
+    }
+}
+
 // 학생 등록 함수 
 function createStudent_then(studentData) {
     console.log("학생 등록...");
