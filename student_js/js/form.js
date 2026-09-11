@@ -87,8 +87,13 @@ studentForm.addEventListener("submit", function (e) {
     }
     console.log("유효한 데이터:", studentData);
 
-    // 서버로 데이터 전송
-    createStudent(studentData);
+    // 수정 
+    if (editingStudentId) {
+        updateStudent(editingStudentId, studentData);
+    } else {
+    // 등록
+        createStudent(studentData);
+    }    
 
 });
 
