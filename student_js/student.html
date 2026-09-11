@@ -45,6 +45,7 @@
             <div class="button-group">
                 <button type="submit">학생 등록</button>
                 <button type="button" class="cancel-btn" id="cancelButton" style="display: none;">취소</button>
+                <span class="error-message" id="formError"></span>
             </div>
 
         </form>
@@ -52,6 +53,11 @@
 
     <div class="table-container">
         <h2>학생 목록</h2>
+        <!-- 표 위쪽에 추가 -->
+        <div id="loadingMessage" class="loading" style="display: none;">
+            로딩 중...
+        </div>
+
         <table>
             <thead>
                 <tr>
