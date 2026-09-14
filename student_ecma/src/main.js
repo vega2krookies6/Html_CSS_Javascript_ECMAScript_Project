@@ -20,8 +20,6 @@ const MESSAGE_TIMEOUT = 3000;
 // 자동 초기화 예약. 새 메시지가 오면 이전 예약을 취소한다.
 let messageTimer = null;
 
-fetchStudents().then((students) => console.log(students));
-
 
 // 에러 메시지 표시
 function showError(message) {
@@ -106,6 +104,26 @@ studentForm.addEventListener("submit", function (e) {
 cancelButton.addEventListener('click', function() {
     studentForm.reset();
 });
+
+async function loadStudents() {
+    loadingMessage.style.display = "block";
+ 
+    // try 안에서 오류가 나면 곧바로 catch 로 넘어간다.
+    // finally 는 성공하든 실패하든 마지막에 반드시 실행된다.
+    try {
+        // await 은 서버 응답이 올 때까지 기다린다.
+        // 3부의 fetch().then().then() 사슬이 두 줄이 되었다.
+        const students = await fetchStudents();
+        renderStudentTable(students);
+    } catch (error) {
+        console.error("Error:", error);
+        showError(error.message);
+    } finally {
+        // 여기에 두면 성공 경로와 실패 경로에 두 번 적지 않아도 된다.
+        loadingMessage.style.display = "none";
+    }
+}
+
 
 // 학생 수정전에 데이터를 로드하는 함수
 async function editStudent(studentId) {
@@ -251,49 +269,8 @@ function createStudent_then(studentData) {
         });
 }
 
-// 학생 목록 로드 함수
-function loadStudents_then() {
-    console.log("학생 목록 로드 중...");
-    //Promise 객체 반환
-    fetch(`${API_BASE_URL}/api/students`)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("학생 목록을 불러오는데 실패했습니다.");
-            }
-            //JSON.parse()
-            return response.json();
-        })
-        .then((students) => {
-            //console.log(students);
-            renderStudentTable(students);
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            alert("학생 목록을 불러오는데 실패했습니다.");
-        });
-}
 
-//async/await 구문을 사용한 학생 목록 로드 함수
-async function loadStudents() {
-    console.log("학생 목록 로드 중...");
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/students`);
-        if (!response.ok) throw new Error("학생 목록을 불러오는데 실패했습니다.");
 
-        const students = await response.json();
-        renderStudentTable(students);
-    } catch (error) {
-        console.error("Error:", error);
-        showError(error.message);
-        studentTableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" style="text-align: center; color: #dc3545;">
-                        오류: 데이터를 불러올 수 없습니다.
-                    </td>
-                </tr>
-            `;
-    }
-}
 
 function renderStudentTable(students) {
     studentTableBody.innerHTML = "";

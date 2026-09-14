@@ -4,6 +4,7 @@
 //   ??  왼쪽이 null 이나 undefined 일 때만 오른쪽 값을 쓴다.
 //       || 와 달리 빈 문자열("")과 0 은 그대로 살린다.
 export const API_BASE_URL = import.meta.env?.VITE_API_BASE_URL ?? "http://localhost:8080";
+console.log('API_BASE_URL =' + API_BASE_URL );
  
 // 백틱(`)으로 감싸면 ${ } 안에 값을 끼워 넣을 수 있다(템플릿 리터럴).
 // 3부의 `${API_BASE_URL}/api/students` 를 매번 쓰던 것을 한 번만 만들어 둔다.
