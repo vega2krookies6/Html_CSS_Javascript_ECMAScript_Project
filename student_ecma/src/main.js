@@ -75,10 +75,12 @@ studentForm.addEventListener("submit", function (e) {
     const studentData = collectStudentData;
 
     // 유효성 검사
-    if (!validateStudent(studentData)) {
+    // 바꾼 뒤 — 돌아온 메시지를 화면에 보여 준다
+    const errorMessage = validateStudent(studentData);
+    if (errorMessage) {
+        showError(errorMessage);
         return;
     }
-    console.log("유효한 데이터:", studentData);
 
     // 수정 
     if (editingStudentId) {
