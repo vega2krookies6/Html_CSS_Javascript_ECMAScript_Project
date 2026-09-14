@@ -207,7 +207,6 @@ function renderStudentTable(students) {
 }
 
 
-
 // 학생 데이터 유효성 검사
 function validateStudent(student) {
     // 필수 필드 검사
