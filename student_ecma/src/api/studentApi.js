@@ -64,11 +64,13 @@ async function request(url, options = {}) {
    중괄호와 return 없이 한 줄로 쓰면 그 값이 그대로 돌아간다.
    function fetchStudents() { return request(STUDENTS_URL); } 와 같은 뜻이다. */
 
+// 학생 목록 조회
 export const fetchStudents = () => request(STUDENTS_URL);
-
+// 학생 ID 개별 조회
 export const fetchStudent = (id) => request(`${STUDENTS_URL}/${id}`);
 
 // 돌려줄 값이 객체나 여러 줄이면 이렇게 줄을 바꿔 쓴다.
+// 학생 등록
 export const createStudent = (student) =>
     request(STUDENTS_URL, {
         method: "POST",
@@ -76,6 +78,7 @@ export const createStudent = (student) =>
         body: JSON.stringify(student),   // 객체를 JSON 문자열로 바꾼다
     });
 
+// 학생 수정
 export const updateStudent = (id, student) =>
     request(`${STUDENTS_URL}/${id}`, {
         method: "PUT",
@@ -83,6 +86,7 @@ export const updateStudent = (id, student) =>
         body: JSON.stringify(student),
     });
 
+// 학생 삭제    
 export const deleteStudent = (id) =>
     request(`${STUDENTS_URL}/${id}`, {
         method: "DELETE",
