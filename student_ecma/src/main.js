@@ -72,8 +72,8 @@ studentForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
     //FormData에 저장된 값을 추출하여 서버로 전송할 중첩된 객체를 다시 생성하기
-    const studentData = collectStudentData;
-    console.log(collectStudentData);
+    const studentData = collectStudentData();
+    console.log(studentData);
 
     // 유효성 검사
     // 바꾼 뒤 — 돌아온 메시지를 화면에 보여 준다
