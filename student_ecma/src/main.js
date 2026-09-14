@@ -1,5 +1,11 @@
 import './style.css'
-import { fetchStudents as fetchStuAll }  from './api/studentApi';
+import {
+    fetchStudents as fetchStuAll,
+    fetchStudent as apiFetchStudent,
+    createStudent as apiCreateStudent,
+    updateStudent as apiUpdateStudent,
+    deleteStudent as apiDeleteStudent,
+} from './api/studentApi';
 
 
 // 현재 수정 중인 학생 ID
@@ -95,19 +101,19 @@ studentForm.addEventListener("submit", function (e) {
     if (editingStudentId) {
         updateStudent(editingStudentId, studentData);
     } else {
-    // 등록
+        // 등록
         createStudent(studentData);
-    }    
+    }
 
 });
 
-cancelButton.addEventListener('click', function() {
+cancelButton.addEventListener('click', function () {
     studentForm.reset();
 });
 
 async function loadStudents() {
     loadingMessage.style.display = "block";
- 
+
     // try 안에서 오류가 나면 곧바로 catch 로 넘어간다.
     // finally 는 성공하든 실패하든 마지막에 반드시 실행된다.
     try {
