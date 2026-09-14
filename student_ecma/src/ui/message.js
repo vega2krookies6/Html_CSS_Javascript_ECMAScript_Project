@@ -26,7 +26,7 @@ let messageTimer = null;
 
 /* type 과 timeout 은 기본 매개변수다. 생략하면 "error" 와 0 이 들어간다.
    생략했을 때 안전한 쪽(지워지지 않는 오류 메시지)이 되도록 골랐다. */
-export function showMessage(text, type = "error", timeout = 0) {
+function showMessage(text, type = "error", timeout = 0) {
     // 이전에 걸어 둔 자동 삭제 예약을 취소한다.
     // 이게 없으면 앞 메시지의 예약이 새 메시지를 지워 버린다.
     clearTimeout(messageTimer);

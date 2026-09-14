@@ -7,8 +7,14 @@ import {
     deleteStudent as apiDeleteStudent,
 } from './api/studentApi';
 
-import { studentForm, collectStudentData } from "./ui/studentForm.js";
+import {
+    studentForm, collectStudentData, cancelButton,
+    fillForm, setEditMode, resetForm, scrollToForm,
+} from "./ui/studentForm.js";
+
 import { validateStudent } from "./lib/validation.js";
+import { showError, showSuccess, clearMessages, setLoading } from "./ui/message.js";
+
 
 // 현재 수정 중인 학생 ID
 let editingStudentId = null;
@@ -120,7 +126,7 @@ async function loadStudents() {
 async function createStudent(studentData) {
     try {
         await apiCreateStudent(studentData);
- 
+
         showSuccess("학생이 성공적으로 등록되었습니다.");
         studentForm.reset();
         loadStudents();
@@ -134,7 +140,7 @@ async function createStudent(studentData) {
 async function updateStudent(studentId, studentData) {
     try {
         await apiUpdateStudent(studentId, studentData);
- 
+
         resetForm();   // clearMessages() 가 들어 있으므로 메시지보다 먼저
         showSuccess("학생 정보가 성공적으로 수정되었습니다.");
         loadStudents();
@@ -143,16 +149,16 @@ async function updateStudent(studentId, studentData) {
         showError(error.message);
     }
 }
- 
+
 // 학생 삭제 — confirm 은 화면 처리이므로 그대로 남는다
 async function deleteStudent(studentId) {
     if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
         return;
     }
- 
+
     try {
         await apiDeleteStudent(studentId);
- 
+
         showSuccess("학생이 성공적으로 삭제되었습니다.");
         loadStudents();
     } catch (error) {
@@ -160,22 +166,22 @@ async function deleteStudent(studentId) {
         showError(error.message);
     }
 }
- 
+
 // 수정 전 데이터 로드 — 폼 채우기는 실습 4-9 에서 fillForm 으로 옮긴다
 async function editStudent(studentId) {
     try {
         const student = await apiFetchStudent(studentId);
- 
+
         studentForm.name.value = student.name;
         studentForm.studentNumber.value = student.studentNumber;
- 
+
         if (student.detail) {
             studentForm.address.value = student.detail.address;
             studentForm.phoneNumber.value = student.detail.phoneNumber;
             studentForm.email.value = student.detail.email || "";
             studentForm.dateOfBirth.value = student.detail.dateOfBirth || "";
         }
- 
+
         editingStudentId = studentId;
         submitButton.textContent = "학생 수정";
         studentForm.scrollIntoView({ behavior: "smooth" });
