@@ -358,3 +358,6 @@ function isValidStudentNumber(studentNumber) {
     // 공백이 포함되어 들어올 수 있으므로 trim()을 사용해 양끝 공백 제거 후 검사
     return studentNumberRegex.test(studentNumber.trim());
 }
+
+window.editStudent = editStudent;
+window.deleteStudent = deleteStudent;
