@@ -131,6 +131,19 @@ async function loadStudents() {
     }
 }
 
+async function createStudent(studentData) {
+    try {
+        await apiCreateStudent(studentData);
+ 
+        showSuccess("학생이 성공적으로 등록되었습니다.");
+        studentForm.reset();
+        loadStudents();
+    } catch (error) {
+        console.error("Error:", error);
+        showError(error.message);
+    }
+}
+
 
 // 학생 수정전에 데이터를 로드하는 함수
 async function editStudent(studentId) {
@@ -187,33 +200,6 @@ async function updateStudent(studentId, studentData) {
     }
 }
 
-// async/await 사용한 학생 등록 함수 
-async function createStudent(studentData) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/api/students`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(studentData),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            const defaultMsg = response.status === 409 ? "이미 등록된 학번(이메일,전화번호)입니다." : "학생 등록에 실패했습니다.";
-            // resonponse.json() 로 받은 객체가 백엔드에서는 ErrorObject
-            throw new Error(data.message || defaultMsg);
-        }
-
-        showSuccess("학생이 성공적으로 등록되었습니다.");
-        resetForm();
-        loadStudents();
-        return data;
-    } catch (error) {
-        console.error("Error:", error.message);
-        //studentForm.reset();
-        showError(error.message);
-    }
-}
 
 // 학생 삭제 함수
 async function deleteStudent(studentId) {
@@ -237,46 +223,6 @@ async function deleteStudent(studentId) {
         showError(error.message);
     }
 }
-
-// 학생 등록 함수 
-function createStudent_then(studentData) {
-    console.log("학생 등록...");
-    fetch(`${API_BASE_URL}/api/students`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(studentData),
-    })
-        .then(async (response) => {
-            if (!response.ok) {
-                // 응답 본문을 읽어서 에러 메시지 추출
-                const errorData = await response.json();
-
-                // 상태 코드와 메시지를 확인하여 적절한 에러 처리
-                if (response.status === 409) {
-                    // 중복 오류 처리
-                    throw new Error(errorData.message || "이미 등록된 학번입니다.");
-                } else {
-                    // 기타 오류 처리
-                    throw new Error(errorData.message || "학생 등록에 실패했습니다.");
-                }
-            }
-            return response.json();
-        })
-        .then((result) => {
-            alert("학생이 성공적으로 등록되었습니다.");
-            studentForm.reset();
-            loadStudents(); // 목록 새로고침
-        })
-        .catch((error) => {
-            console.error("Error:", error.message);
-            //alert(error.message);  // 실제 서버에서 온 에러 메시지 표시
-            showError(error.message);
-        });
-}
-
-
 
 
 function renderStudentTable(students) {
