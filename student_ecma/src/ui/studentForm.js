@@ -28,12 +28,12 @@ export function collectStudentData() {
         name: formData.get("name").trim(),
         studentNumber: formData.get("studentNumber").trim(),
         detailRequest: {
-            address: formData.get("address").trim(),
+            address: formData.get("address").trim() || null,
             phoneNumber: formData.get("phoneNumber").trim(),
             // 여기서만 ?? 가 아니라 || 를 쓴다.
             // 아무것도 입력하지 않으면 빈 문자열("")이 오는데,
             // ?? 는 빈 문자열을 통과시켜 서버로 "" 이 나가 버린다.
-            email: formData.get("email").trim() || null,
+            email: formData.get("email").trim(),
             dateOfBirth: formData.get("dateOfBirth") || null,
         },
     };
@@ -41,6 +41,7 @@ export function collectStudentData() {
 
 // 서버에서 받은 학생 정보로 폼을 채운다. 수정 버튼을 눌렀을 때 쓴다.
 export function fillForm(student) {
+    //Destructuring Assignment  비구조화 할당
     const { name, studentNumber, detail } = student;
 
     studentForm.name.value = name;

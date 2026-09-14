@@ -7,12 +7,12 @@ import {
     deleteStudent as apiDeleteStudent,
 } from './api/studentApi';
 
+import { studentForm, collectStudentData } from "./ui/studentForm.js";
 
 // 현재 수정 중인 학생 ID
 let editingStudentId = null;
 
 // DOM 요소 참조
-const studentForm = document.getElementById("studentForm");
 const studentTableBody = document.getElementById("studentTableBody");
 const submitButton = studentForm.querySelector('button[type="submit"]');
 const cancelButton = studentForm.querySelector('.cancel-btn');
@@ -69,27 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // 폼 제출 이벤트 핸들러
 studentForm.addEventListener("submit", function (e) {
     e.preventDefault();
-    // document.getElementById("name")는 HTMLElement 객체
-    //const name = document.getElementById("name").value;
-    const formData = new FormData(studentForm);
-
-    // console.log(Object.fromEntries(formData));
-    // console.log("entries()")
-    // for (const [key, value] of formData.entries()) {
-    //     console.log(key, "=", value);
-    // }
 
     //FormData에 저장된 값을 추출하여 서버로 전송할 중첩된 객체를 다시 생성하기
-    const studentData = {
-        name: formData.get("name").trim(),
-        studentNumber: formData.get("studentNumber").trim(),
-        detailRequest: {
-            address: formData.get("address").trim() || null,
-            phoneNumber: formData.get("phoneNumber").trim(),
-            email: formData.get("email").trim() || null,
-            dateOfBirth: formData.get("dateOfBirth") || null,
-        },
-    };
+    const studentData = collectStudentData;
 
     // 유효성 검사
     if (!validateStudent(studentData)) {
