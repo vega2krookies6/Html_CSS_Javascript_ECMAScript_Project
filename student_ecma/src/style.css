@@ -203,7 +203,7 @@
           padding: 20px;
       }
 
-       /* 로딩 상태 표시 스타일 */
+      /* 로딩 상태 표시 스타일 */
       .loading {
           text-align: center;
           /* 텍스트 중앙 정렬 */
@@ -281,4 +281,32 @@
       .delete-btn:hover {
           background-color: #c82333;
           /* hover 할때 더 어두운 빨간색 */
+      }
+
+/* ---- ECMAScript 버전에서 추가된 스타일 ---- */
+
+      /* 목록이 비었을 때 보여 주는 안내 행 */
+      .empty-row {
+          text-align: center;
+          /* 가운데 정렬 */
+          color: #888;
+          /* 옅은 회색 글자 */
+          padding: 24px 10px;
+          /* 위아래로 넉넉한 여백 */
+      }
+
+      /* 목록을 불러오지 못했을 때 보여 주는 행 */
+      .error-row {
+          text-align: center;
+          /* 가운데 정렬 */
+          color: #dc3545;
+          /* 빨간색 글자 */
+          padding: 24px 10px;
+          /* 위아래로 넉넉한 여백 */
+      }
+
+      /* 수정 모드일 때 폼 전체를 살짝 강조한다 */
+      .form-container.editing {
+          border-left: 4px solid #28a745;
+          /* 왼쪽에 녹색 띠 */
       }
