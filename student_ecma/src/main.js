@@ -55,9 +55,12 @@ studentForm.addEventListener("submit", function (e) {
 
 });
 
-cancelButton.addEventListener('click', function () {
-    studentForm.reset();
+cancelButton.addEventListener("click", () => {
+    editingStudentId = null;
+    resetForm();
+    clearMessages();
 });
+
 
 async function loadStudents() {
     setLoading(true);
@@ -132,30 +135,6 @@ async function editStudent(studentId) {
         editingStudentId = studentId;
         setEditMode(true);
         scrollToForm();
-    } catch (error) {
-        console.error("Error:", error);
-        showError(error.message);
-    }
-}
-
-// 수정 전 데이터 로드 — 폼 채우기는 실습 4-9 에서 fillForm 으로 옮긴다
-async function editStudent_old(studentId) {
-    try {
-        const student = await apiFetchStudent(studentId);
-
-        studentForm.name.value = student.name;
-        studentForm.studentNumber.value = student.studentNumber;
-
-        if (student.detail) {
-            studentForm.address.value = student.detail.address;
-            studentForm.phoneNumber.value = student.detail.phoneNumber;
-            studentForm.email.value = student.detail.email || "";
-            studentForm.dateOfBirth.value = student.detail.dateOfBirth || "";
-        }
-
-        editingStudentId = studentId;
-        submitButton.textContent = "학생 수정";
-        studentForm.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
         console.error("Error:", error);
         showError(error.message);
