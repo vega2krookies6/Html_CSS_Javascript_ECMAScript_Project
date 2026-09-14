@@ -8,6 +8,7 @@ import {
 } from './api/studentApi';
 
 import { studentForm, collectStudentData } from "./ui/studentForm.js";
+import { validateStudent } from "./lib/validation.js";
 
 // 현재 수정 중인 학생 ID
 let editingStudentId = null;
@@ -206,47 +207,6 @@ function renderStudentTable(students) {
     });
 }
 
-
-// 학생 데이터 유효성 검사
-function validateStudent(student) {
-    // 필수 필드 검사
-    if (!student.name) {
-        alert("이름을 입력해주세요.");
-        return false;
-    }
-
-    if (!student.studentNumber || !isValidStudentNumber(student.studentNumber)) {
-        alert("학번을 입력하지 않거나 올바른 형식이 아닙니다.");
-        return false;
-    }
-
-    // 전화번호 형식 검사
-    const phonePattern = /^[0-9-\s]+$/;
-    if (!student.detailRequest.phoneNumber || !phonePattern.test(student.detailRequest.phoneNumber)) {
-        alert("전화번호를 입력하지 않거나 올바른 전화번호 형식이 아닙니다.");
-        return false;
-    }
-
-    // 이메일 형식 검사 (입력된 경우에만)
-    if (!student.detailRequest.email || !isValidEmail(student.detailRequest.email)) {
-        alert("이메일를 입력하지 않거나 올바른 이메일 형식이 아닙니다.");
-        return false;
-    }
-
-    return true;
-}
-
-// 이메일 유효성 검사
-function isValidEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email);
-}
-//학번 유효성 검사 CS001, cs001
-function isValidStudentNumber(studentNumber) {
-    const studentNumberRegex = /^[A-Z]{2}\d{3}$/i;
-    // 공백이 포함되어 들어올 수 있으므로 trim()을 사용해 양끝 공백 제거 후 검사
-    return studentNumberRegex.test(studentNumber.trim());
-}
 
 window.editStudent = editStudent;
 window.deleteStudent = deleteStudent;
