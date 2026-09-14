@@ -38,10 +38,10 @@ export function validateStudent(student) {
     // detailRequest = {} 는 기본값이다. detailRequest 가 없는 객체가
     // 들어와도 빈 객체로 대신해 "Cannot destructure property" 를 막는다.
 
-    // const { name, studentNumber, detailRequest = {} } = student;
-    // const { phoneNumber, email } = detailRequest;
+    const { name, studentNumber, detailRequest = {} } = student;
+    const { phoneNumber, email } = detailRequest;
 
-    const { name, studentNumber, detailRequest:{ phoneNumber, email } } = student;
+    //const { name, studentNumber, detailRequest:{ phoneNumber, email } } = student;
 
     // 문제를 찾으면 그 자리에서 바로 돌려주고 끝낸다(early return).
     // 아래로 갈수록 조건이 중첩되지 않아 읽기 쉽다.
