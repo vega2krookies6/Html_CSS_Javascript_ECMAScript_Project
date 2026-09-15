@@ -14,6 +14,7 @@ import {
 
 import { validateStudent } from "./lib/validation.js";
 import { showError, showSuccess, clearMessages, setLoading } from "./ui/message.js";
+import { renderStudentTable, renderTableError, studentTableBody, } from "./ui/studentTable.js";
 
 
 // 현재 수정 중인 학생 ID
