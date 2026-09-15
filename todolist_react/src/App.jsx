@@ -5,7 +5,7 @@ function App() {
 
   return (
     <>
-      <MyComponent />
+      <MyComponent name="홍길동" age={20} />
     </>
   )
 }
