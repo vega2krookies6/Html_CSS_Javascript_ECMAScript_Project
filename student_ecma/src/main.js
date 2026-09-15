@@ -2,7 +2,7 @@ import './style.css'
 import {
     fetchStudents,
     fetchStudent,
-    createStudent as apiCreateStudent,
+    createStudent,
     updateStudent as apiUpdateStudent,
     deleteStudent as apiDeleteStudent,
 } from './api/studentApi';
@@ -22,30 +22,64 @@ let editingStudentId = null;
 
 
 // 폼 제출 이벤트 핸들러
-studentForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    //FormData에 저장된 값을 추출하여 서버로 전송할 중첩된 객체를 다시 생성하기
+// 핸들러 안에서 await 을 쓰려면 함수에 async 를 붙여야 한다.
+studentForm.addEventListener("submit", async (event) => {
+    event.preventDefault();          // 폼 제출로 페이지가 새로고침되는 것을 막는다
+    clearMessages();
+ 
     const studentData = collectStudentData();
-    console.log(studentData);
-
-    // 유효성 검사
-    // 바꾼 뒤 — 돌아온 메시지를 화면에 보여 준다
+ 
+    // validateStudent 는 문제가 있으면 메시지를, 없으면 null 을 돌려준다.
+    // 문제가 있으면 여기서 끝낸다(early return).
     const errorMessage = validateStudent(studentData);
     if (errorMessage) {
         showError(errorMessage);
         return;
     }
-
-    // 수정 
-    if (editingStudentId) {
-        updateStudent(editingStudentId, studentData);
-    } else {
-        // 등록
-        createStudent(studentData);
+ 
+    try {
+        // editingStudentId 에 값이 있으면 수정, 없으면 등록이다.
+        if (editingStudentId) {
+            await updateStudent(editingStudentId, studentData);
+            showSuccess("학생 정보가 성공적으로 수정되었습니다.");
+        } else {
+            await createStudent(studentData);
+            showSuccess("학생이 성공적으로 등록되었습니다.");
+        }
+ 
+        editingStudentId = null;
+        resetForm();
+        await loadStudents();         // 목록 새로고침
+    } catch (error) {
+        console.error("Error:", error);
+        showError(error.message);     // 서버가 보낸 실제 메시지
     }
-
 });
+
+// studentForm.addEventListener("submit", function (e) {
+//     e.preventDefault();
+
+//     //FormData에 저장된 값을 추출하여 서버로 전송할 중첩된 객체를 다시 생성하기
+//     const studentData = collectStudentData();
+//     console.log(studentData);
+
+//     // 유효성 검사
+//     // 바꾼 뒤 — 돌아온 메시지를 화면에 보여 준다
+//     const errorMessage = validateStudent(studentData);
+//     if (errorMessage) {
+//         showError(errorMessage);
+//         return;
+//     }
+
+//     // 수정 
+//     if (editingStudentId) {
+//         updateStudent(editingStudentId, studentData);
+//     } else {
+//         // 등록
+//         createStudent(studentData);
+//     }
+
+// });
 
 cancelButton.addEventListener("click", () => {
     editingStudentId = null;
@@ -101,19 +135,6 @@ studentTableBody.addEventListener("click", async (event) => {
     }
 });
 
-
-async function createStudent(studentData) {
-    try {
-        await apiCreateStudent(studentData);
-
-        showSuccess("학생이 성공적으로 등록되었습니다.");
-        studentForm.reset();
-        loadStudents();
-    } catch (error) {
-        console.error("Error:", error);
-        showError(error.message);
-    }
-}
 
 // 학생 수정 처리
 async function updateStudent(studentId, studentData) {
