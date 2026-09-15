@@ -7,10 +7,17 @@ class MyComponent extends Component {
         message: '',
         username: ''
     };
+    
+    //event handler 함수
+    handleChange = (e) => {
 
+    }
+
+    //Component 메서드 재정의
     render() {
         const { name, age } = this.props; 
         const { value, message, username } = this.state;
+        const { handleChange } = this;
 
         return (
             <div>
@@ -22,13 +29,13 @@ class MyComponent extends Component {
                 })}>증가</button> 
                 
                 <p>상태변수 message = {message}</p>
-                <input name="message" value={message} />
+                <input name="message" value={message} onChange={handleChange} />
                 <br />
                 <p>상태변수 username = {username}</p>
                 <input name="username" value={username} />
             </div>
         );
-    }
+    }//render
 }
 
 export default MyComponent;
