@@ -83,6 +83,33 @@ async function loadStudents() {
     }
 }
 
+/* 버튼마다 이벤트를 걸지 않는 이유는, 표를 다시 그릴 때마다
+   버튼이 새로 만들어져 매번 다시 걸어야 하기 때문이다.
+   사라지지 않는 부모인 tbody 에 한 번만 걸어 두면
+   나중에 생기는 행의 버튼도 그대로 동작한다(이벤트 위임). */
+studentTableBody.addEventListener("click", async (event) => {
+    // tbody 안에서 일어난 클릭이 전부 여기로 들어온다.
+    // 이름 칸을 눌렀는지 버튼을 눌렀는지 먼저 가려내야 한다.
+    //
+    //   event.target  이벤트를 건 tbody 가 아니라 실제로 눌린 가장 안쪽 요소
+    //   closest(...)  자기 자신부터 부모 쪽으로 올라가며 조건에 맞는 첫 요소를 찾는다
+    //                 끝까지 없으면 null 을 돌려준다
+    const button = event.target.closest("button[data-action]");
+    if (!button) return;             // 버튼이 아닌 곳을 눌렀다
+ 
+    // data-action="edit" 은 button.dataset.action 으로 읽는다.
+    const { action, id } = button.dataset;
+ 
+    // dataset 값은 언제나 문자열이다. data-id="3" 이면 "3" 이 온다.
+    // 그래서 Number() 로 숫자로 바꿔서 넘긴다.
+    if (action === "edit") {
+        await editStudent(Number(id));
+    } else if (action === "delete") {
+        await deleteStudent(Number(id));
+    }
+});
+
+
 async function createStudent(studentData) {
     try {
         await apiCreateStudent(studentData);
