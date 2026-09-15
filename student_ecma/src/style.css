@@ -18,6 +18,28 @@
           /* 제목을 중앙 정렬 */
       }
 
+      /* 제목 옆에 붙는 모드 표시(TEST / PROD) */
+      .app-mode {
+          font-size: 0.5em;
+          /* 제목보다 훨씬 작게 — em 은 부모 글자 크기의 배수다 */
+          vertical-align: middle;
+          /* 제목 글자의 가운데 높이에 맞춘다 */
+          padding: 3px 10px;
+          border-radius: 12px;
+          color: white;
+          letter-spacing: 1px;
+      }
+
+      /* 개발 모드 — 눈에 띄지 않는 회색 */
+      .app-mode.test {
+          background-color: #6c757d;
+      }
+
+      /* 운영 모드 — 실수로 운영을 건드리지 않도록 빨간색 */
+      .app-mode.prod {
+          background-color: #dc3545;
+      }
+
       /* 부제목(h2)의 스타일을 설정합니다 */
       h2 {
           color: #444;
@@ -283,7 +305,7 @@
           /* hover 할때 더 어두운 빨간색 */
       }
 
-/* ---- ECMAScript 버전에서 추가된 스타일 ---- */
+      /* ---- ECMAScript 버전에서 추가된 스타일 ---- */
 
       /* 목록이 비었을 때 보여 주는 안내 행 */
       .empty-row {
