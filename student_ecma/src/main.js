@@ -3,8 +3,8 @@ import {
     fetchStudents,
     fetchStudent,
     createStudent,
-    updateStudent as apiUpdateStudent,
-    deleteStudent as apiDeleteStudent,
+    updateStudent,
+    deleteStudent,
 } from './api/studentApi';
 
 import {
@@ -56,30 +56,6 @@ studentForm.addEventListener("submit", async (event) => {
     }
 });
 
-// studentForm.addEventListener("submit", function (e) {
-//     e.preventDefault();
-
-//     //FormData에 저장된 값을 추출하여 서버로 전송할 중첩된 객체를 다시 생성하기
-//     const studentData = collectStudentData();
-//     console.log(studentData);
-
-//     // 유효성 검사
-//     // 바꾼 뒤 — 돌아온 메시지를 화면에 보여 준다
-//     const errorMessage = validateStudent(studentData);
-//     if (errorMessage) {
-//         showError(errorMessage);
-//         return;
-//     }
-
-//     // 수정 
-//     if (editingStudentId) {
-//         updateStudent(editingStudentId, studentData);
-//     } else {
-//         // 등록
-//         createStudent(studentData);
-//     }
-
-// });
 
 cancelButton.addEventListener("click", () => {
     editingStudentId = null;
@@ -136,28 +112,14 @@ studentTableBody.addEventListener("click", async (event) => {
 });
 
 
-// 학생 수정 처리
-async function updateStudent(studentId, studentData) {
-    try {
-        await apiUpdateStudent(studentId, studentData);
-
-        resetForm();   // clearMessages() 가 들어 있으므로 메시지보다 먼저
-        showSuccess("학생 정보가 성공적으로 수정되었습니다.");
-        loadStudents();
-    } catch (error) {
-        console.error("Error:", error);
-        showError(error.message);
-    }
-}
-
 // 학생 삭제 — confirm 은 화면 처리이므로 그대로 남는다
-async function deleteStudent(studentId) {
+async function removeStudent(studentId) {
     if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
         return;
     }
 
     try {
-        await apiDeleteStudent(studentId);
+        await deleteStudent(studentId);
 
         showSuccess("학생이 성공적으로 삭제되었습니다.");
         loadStudents();
