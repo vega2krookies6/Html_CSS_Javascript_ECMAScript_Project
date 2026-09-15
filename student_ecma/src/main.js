@@ -21,7 +21,6 @@ import { renderStudentTable, renderTableError, studentTableBody, } from "./ui/st
 let editingStudentId = null;
 
 // DOM 요소 참조
-const studentTableBody = document.getElementById("studentTableBody");
 const submitButton = studentForm.querySelector('button[type="submit"]');
 
 
@@ -77,6 +76,7 @@ async function loadStudents() {
     } catch (error) {
         console.error("Error:", error);
         showError(error.message);
+        renderTableError();
     } finally {
         // 여기에 두면 성공 경로와 실패 경로에 두 번 적지 않아도 된다.
         setLoading(false);
@@ -142,30 +142,4 @@ async function editStudent(studentId) {
     }
 }
 
-function renderStudentTable(students) {
-    studentTableBody.innerHTML = "";
 
-    students.forEach((student) => {
-        const row = document.createElement("tr");
-
-        //${student.detail ? student.detail.email || "-" : "-"}
-        row.innerHTML = `
-                    <td>${student.name}</td>
-                    <td>${student.studentNumber}</td>
-                    <td>${student.detail?.address ?? "-"}</td>
-                    <td>${student.detail?.phoneNumber ?? "-"}</td>
-                    <td>${student.detail?.email ?? "-"}</td>
-                    <td>${student.detail?.dateOfBirth ?? "-"}</td>
-                    <td>
-                        <button class="edit-btn" onclick="editStudent(${student.id})">수정</button>
-                        <button class="delete-btn" onclick="deleteStudent(${student.id})">삭제</button>
-                    </td>
-                `;
-
-        studentTableBody.appendChild(row);
-    });
-}
-
-
-window.editStudent = editStudent;
-window.deleteStudent = deleteStudent;
