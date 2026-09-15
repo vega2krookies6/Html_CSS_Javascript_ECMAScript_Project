@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 
 const MyComponentFunc = ({ name, age, children }) => {
     const [value, setValue] = useState(0);
+    // const [message, setMessage] = useState("");
+    // const [username, setUsername] = useState("");
+    const [inputs, setInputs] = useState({
+        message: '', username: ''
+    });
 
     return (
         <div>
