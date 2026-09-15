@@ -15,5 +15,9 @@ export const JSON_HEADERS = {
     "Content-Type": "application/json",
 };
 
-//테스트 모드와 운영모드를 구분하는 VITE_MODE 환경변수 가져오기
-export const MODE = import.meta.env?.VITE_MODE ?? "TEST";
+// 지금 테스트 모드인지 운영 모드인지.
+//   npm run dev   → .env.development 를 읽어 "TEST"
+//   npm run build → .env.production 을 읽어 "PROD"
+// .env 파일이 없을 때를 대비해 기본값을 "TEST" 로 둔다.
+// 운영 화면에 실수로 TEST 가 뜨는 편이, 테스트 화면에 PROD 가 뜨는 것보다 안전하다.
+export const APP_MODE = import.meta.env?.VITE_MODE ?? "TEST";
