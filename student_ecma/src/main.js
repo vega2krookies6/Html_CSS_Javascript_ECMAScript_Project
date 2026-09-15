@@ -105,37 +105,21 @@ studentTableBody.addEventListener("click", async (event) => {
     // dataset 값은 언제나 문자열이다. data-id="3" 이면 "3" 이 온다.
     // 그래서 Number() 로 숫자로 바꿔서 넘긴다.
     if (action === "edit") {
-        await editStudent(Number(id));
+        await startEdit(Number(id));
     } else if (action === "delete") {
         await removeStudent(Number(id));
     }
 });
 
-
-// 학생 삭제 — confirm 은 화면 처리이므로 그대로 남는다
-async function removeStudent(studentId) {
-    if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
-        return;
-    }
-
-    try {
-        await deleteStudent(studentId);
-
-        showSuccess("학생이 성공적으로 삭제되었습니다.");
-        loadStudents();
-    } catch (error) {
-        console.error("Error:", error);
-        showError(error.message);
-    }
-}
-
-// 바꾼 뒤 — 폼 다루기는 studentForm.js 에 맡긴다
-async function editStudent(studentId) {
+// 수정할 학생 정보를 불러와 폼에 채우고 수정 모드로 바꾼다.
+async function startEdit(studentId) {
+    clearMessages();
+ 
     try {
         const student = await fetchStudent(studentId);
  
         fillForm(student);
-        editingStudentId = studentId;
+        editingStudentId = studentId;   // 이제 제출하면 등록이 아니라 수정이 된다
         setEditMode(true);
         scrollToForm();
     } catch (error) {
@@ -143,6 +127,62 @@ async function editStudent(studentId) {
         showError(error.message);
     }
 }
+ 
+// 확인을 받은 뒤 학생을 삭제한다.
+async function removeStudent(studentId) {
+    if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
+        return;
+    }
+ 
+    try {
+        await deleteStudent(studentId);
+        showSuccess("학생이 성공적으로 삭제되었습니다.");
+ 
+        // 수정 중이던 학생을 삭제했다면 폼도 등록 모드로 되돌린다.
+        // 이걸 빠뜨리면 없는 학생을 수정하려다 404 가 난다.
+        if (editingStudentId === studentId) {
+            editingStudentId = null;
+            resetForm();
+        }
+ 
+        await loadStudents();
+    } catch (error) {
+        console.error("Error:", error);
+        showError(error.message);
+    }
+}
+
+// 학생 삭제 — confirm 은 화면 처리이므로 그대로 남는다
+// async function removeStudent(studentId) {
+//     if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
+//         return;
+//     }
+
+//     try {
+//         await deleteStudent(studentId);
+
+//         showSuccess("학생이 성공적으로 삭제되었습니다.");
+//         loadStudents();
+//     } catch (error) {
+//         console.error("Error:", error);
+//         showError(error.message);
+//     }
+// }
+
+// // 바꾼 뒤 — 폼 다루기는 studentForm.js 에 맡긴다
+// async function editStudent(studentId) {
+//     try {
+//         const student = await fetchStudent(studentId);
+ 
+//         fillForm(student);
+//         editingStudentId = studentId;
+//         setEditMode(true);
+//         scrollToForm();
+//     } catch (error) {
+//         console.error("Error:", error);
+//         showError(error.message);
+//     }
+// }
 
 // Student load 함수 호출
 loadStudents();
