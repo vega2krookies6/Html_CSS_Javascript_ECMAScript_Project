@@ -14,6 +14,7 @@
        태그가 섞여 있으면 그대로 실행됩니다. textContent 는
        무엇이 들어와도 글자로만 보여 줍니다.
    --------------------------------------------------------- */
+import { MODE } from "../config";
 
 // main.js 가 여기에 클릭 이벤트를 건다. 그래서 export 한다.
 export const studentTableBody = document.getElementById("studentTableBody");
@@ -93,6 +94,8 @@ function createStudentRow(student) {
 
 // 학생 목록을 표에 그린다. 인자를 생략하면 빈 배열로 본다.
 export function renderStudentTable(students = []) {
+    const h1Title = document.getElementById("h1Title");
+    
     // 먼저 비우지 않으면 목록을 새로고침할 때마다 같은 학생이 쌓인다.
     studentTableBody.innerHTML = "";
 
