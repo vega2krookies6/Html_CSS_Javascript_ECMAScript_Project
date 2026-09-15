@@ -1,6 +1,6 @@
 import './style.css'
 import {
-    fetchStudents as fetchStuAll,
+    fetchStudents,
     fetchStudent as apiFetchStudent,
     createStudent as apiCreateStudent,
     updateStudent as apiUpdateStudent,
@@ -62,8 +62,7 @@ async function loadStudents() {
     try {
         // await 은 서버 응답이 올 때까지 기다린다.
         // 3부의 fetch().then().then() 사슬이 두 줄이 되었다.
-        //const students = await fetchStudents();
-        const students = await fetchStuAll();
+        const students = await fetchStudents();
         renderStudentTable(students);
     } catch (error) {
         console.error("Error:", error);
