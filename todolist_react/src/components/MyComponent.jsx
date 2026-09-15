@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
 class MyComponent extends Component {
+    //상태객체
+    state = {
+        value: 0
+    };
+
     render() {
         const { name, age } = this.props; 
         return (
