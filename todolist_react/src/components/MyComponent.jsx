@@ -3,13 +3,15 @@ import React, { Component } from 'react';
 class MyComponent extends Component {
     //상태객체
     state = {
-        value: 0
+        value: 0,
+        message: '',
+        username: ''
     };
 
     render() {
         const { name, age } = this.props; 
-        const { value } = this.state;
-        
+        const { value, message, username } = this.state;
+
         return (
             <div>
                 <h2>클래스 형태의 컴포넌트</h2>
