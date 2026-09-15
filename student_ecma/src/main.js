@@ -141,7 +141,6 @@ async function editStudent(studentId) {
     }
 }
 
-
 function renderStudentTable(students) {
     studentTableBody.innerHTML = "";
 
