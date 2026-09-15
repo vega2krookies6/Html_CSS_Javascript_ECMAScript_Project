@@ -19,7 +19,13 @@ class MyComponent extends Component {
                 <p>상태변수 value = {value}</p>
                 <button onClick={() => this.setState({
                     value: value + 1
-                })}>증가</button>
+                })}>증가</button> 
+                
+                <p>상태변수 message = {message}</p>
+                <input name="message" value={message} />
+                <br />
+                <p>상태변수 username = {username}</p>
+                <input name="username" value={username} />
             </div>
         );
     }
