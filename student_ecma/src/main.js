@@ -152,37 +152,6 @@ async function removeStudent(studentId) {
     }
 }
 
-// 학생 삭제 — confirm 은 화면 처리이므로 그대로 남는다
-// async function removeStudent(studentId) {
-//     if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
-//         return;
-//     }
-
-//     try {
-//         await deleteStudent(studentId);
-
-//         showSuccess("학생이 성공적으로 삭제되었습니다.");
-//         loadStudents();
-//     } catch (error) {
-//         console.error("Error:", error);
-//         showError(error.message);
-//     }
-// }
-
-// // 바꾼 뒤 — 폼 다루기는 studentForm.js 에 맡긴다
-// async function editStudent(studentId) {
-//     try {
-//         const student = await fetchStudent(studentId);
- 
-//         fillForm(student);
-//         editingStudentId = studentId;
-//         setEditMode(true);
-//         scrollToForm();
-//     } catch (error) {
-//         console.error("Error:", error);
-//         showError(error.message);
-//     }
-// }
 
 // Student load 함수 호출
 loadStudents();
