@@ -14,3 +14,6 @@ export const STUDENTS_URL = `${API_BASE_URL}/api/students`;
 export const JSON_HEADERS = {
     "Content-Type": "application/json",
 };
+
+//테스트 모드와 운영모드를 구분하는 VITE_MODE 환경변수 가져오기
+export const MODE = import.meta.env?.VITE_MODE ?? "TEST";
