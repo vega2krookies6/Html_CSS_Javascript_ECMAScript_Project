@@ -107,7 +107,7 @@ studentTableBody.addEventListener("click", async (event) => {
     if (action === "edit") {
         await editStudent(Number(id));
     } else if (action === "delete") {
-        await deleteStudent(Number(id));
+        await removeStudent(Number(id));
     }
 });
 
