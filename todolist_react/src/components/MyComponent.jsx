@@ -21,8 +21,12 @@ class MyComponent extends Component {
 
     handleEnter = (e) => {
         if(e.keyCode === 13){
-            this.setState();
-        }
+            this.setState({
+                isValid: true
+            });
+            //html dom 직접 접근
+            this.myUsername.focus();
+        }//if
     };
 
 
