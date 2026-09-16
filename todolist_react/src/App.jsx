@@ -50,8 +50,11 @@ function App() {
       )
     );
   };
-
-
+  const handleRemove = (id) => {
+    setTodos(
+      todos.filter((todo) => todo.id !== id)
+    );
+  };
 
   return (
     <>
@@ -62,7 +65,10 @@ function App() {
           myEnter={handleEnter}
         />
       }>
-        <TodoItemList myTodos={todos} />
+        <TodoItemList myTodos={todos}
+          myToggle={handleToggle}
+          myRemove={handleRemove}
+        />
       </TodoListTemplate>
 
     </>
