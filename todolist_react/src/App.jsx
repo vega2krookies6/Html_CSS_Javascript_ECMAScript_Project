@@ -22,12 +22,33 @@ function App() {
     setTodo(e.target.value); // 입력칸의 다음 값
   };
 
+  const handleCreate = () => {
+    const newTodo = {
+      id: nextId,
+      text: todo,
+      checked: false,
+    };
+
+    // 기존 배열을 펼치고 뒤에 하나를 더한 "새 배열" 을 넣는다
+    setTodos([...todos, newTodo]);
+    setTodo("");                // 입력칸 비우기
+    setNextId(nextId + 1);      // 다음 번호 준비
+  };
+
+  const handleEnter = (e) => {
+    // 눌려진 키가 Enter 이면 handleCreate 호출
+    if (e.keyCode === 13) {
+      handleCreate();
+    }
+  };
+
+
 
   return (
     <>
       <TodoListTemplate form={
-          <Form myTodo={todo} myChange={handleChange} />
-        }>
+        <Form myTodo={todo} myChange={handleChange} />
+      }>
         <TodoItemList />
       </TodoListTemplate>
 
