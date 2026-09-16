@@ -36,11 +36,14 @@ class MyComponent extends Component {
                 })}>증가</button> 
                 
                 <p>상태변수 message = {message}</p>
-                <input name="message" value={message} onChange={handleChange} />
+                <input name="message" value={message} onChange={handleChange}
+                    onKeyDown={handleEnter}
+                 />
                 <br />
                 <p>상태변수 username = {username}</p>
                 <input name="username" value={username} onChange={handleChange} 
                     className={isValid ? 'success':'failure'}
+                    ref={(ref) => this.myUsername = ref}
                 />
             </div>
         );
