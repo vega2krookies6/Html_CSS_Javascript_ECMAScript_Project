@@ -40,7 +40,7 @@ function App() {
     // 아래 주석은 ESLint 에게 "이 경고는 알고 있다"고 알려 주는 줄이다.
     // eslint-disable-next-line react-hooks/set-state-in-effect -- 처음 한 번 목록을 불러오는 것은 의도된 동작입니다
     loadStudents();
-  });
+  },[]);
 
   return (
     <>
