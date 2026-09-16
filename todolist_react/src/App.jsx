@@ -37,8 +37,8 @@ function App() {
 
   const handleEnter = (e) => {
     // 눌려진 키가 Enter 이면 handleCreate 호출
-    if (e.keyCode === 13) {
-  //if (e.key === "Enter") {  
+    // if (e.keyCode === 13) {
+    if (e.key === "Enter") {  
       handleCreate();
     }
   };
@@ -54,7 +54,7 @@ function App() {
               myEnter={handleEnter}
         />
       }>
-        <TodoItemList />
+        <TodoItemList myTodos={todos} />
       </TodoListTemplate>
 
     </>
