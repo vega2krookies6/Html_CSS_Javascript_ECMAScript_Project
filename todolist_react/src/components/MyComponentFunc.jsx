@@ -9,7 +9,7 @@ const MyComponentFunc = ({ name, age, children }) => {
         message: '', username: ''
     });
     const [valid, setValid] = useState(false);
-    
+
     //비구조화 할당
     const { message, username } = inputs;
 
@@ -23,7 +23,11 @@ const MyComponentFunc = ({ name, age, children }) => {
             [e.target.name]: e.target.value
         });
     }
+    const handleEnter = (e) => {
+        if(e.keyCode === 13){
 
+        }
+    }
     return (
         <div>
             <h2>함수 형태의 컴포넌트</h2>
@@ -32,10 +36,17 @@ const MyComponentFunc = ({ name, age, children }) => {
             <p>상태변수 value = {value}</p>
             <button onClick={() => setValue(value + 1)}>증가</button>
             <p>상태변수 message = {message}</p>
-            <input name="message" value={message} onChange={handleChange} />
+            <input name="message" value={message} 
+                onChange={handleChange} 
+                onKeyDown={handleEnter}
+            />
             <br />
             <p>상태변수 username = {username}</p>
-            <input name="username" value={username} onChange={handleChange} />
+            <input name="username" value={username} 
+            onChange={handleChange} 
+            className={valid ? 'success':'failure'}
+            ref={myUsername}
+            />
         </div>
     );
 };
