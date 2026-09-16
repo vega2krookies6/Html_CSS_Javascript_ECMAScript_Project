@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 const MyComponentFunc = ({ name, age, children }) => {
     const [value, setValue] = useState(0);
@@ -9,6 +9,9 @@ const MyComponentFunc = ({ name, age, children }) => {
     });
     //비구조화 할당
     const { message, username } = inputs;
+
+    //useRef로 직접 접근할 엘리먼트의 이름 선언
+    const myUsername = useRef(null);
 
     //event handler 함수
     const handleChange = (e) => {
