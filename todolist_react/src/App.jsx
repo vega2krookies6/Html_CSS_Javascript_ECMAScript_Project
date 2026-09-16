@@ -38,6 +38,7 @@ function App() {
   const handleEnter = (e) => {
     // 눌려진 키가 Enter 이면 handleCreate 호출
     if (e.keyCode === 13) {
+  //if (e.key === "Enter") {  
       handleCreate();
     }
   };
@@ -47,7 +48,11 @@ function App() {
   return (
     <>
       <TodoListTemplate form={
-        <Form myTodo={todo} myChange={handleChange} />
+        <Form myTodo={todo} 
+              myChange={handleChange}
+              myCreate={handleCreate}
+              myEnter={handleEnter}
+        />
       }>
         <TodoItemList />
       </TodoListTemplate>
