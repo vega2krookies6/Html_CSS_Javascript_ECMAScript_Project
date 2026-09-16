@@ -1,4 +1,5 @@
 import TodoItem from "./TodoItem";
+import { memo } from "react";
 
 const TodoItemList = ({ myTodos, myToggle, myRemove }) => {
     // 배열의 값 하나하나를 화면 조각으로 바꾼다
@@ -22,4 +23,10 @@ const TodoItemList = ({ myTodos, myToggle, myRemove }) => {
     );
 };
  
-export default TodoItemList;
+//export default TodoItemList;
+// myTodos 가 바뀔 때만 다시 그린다
+export default memo(
+    TodoItemList,
+    (prevProps, nextProps) => prevProps.myTodos === nextProps.myTodos
+);
+
