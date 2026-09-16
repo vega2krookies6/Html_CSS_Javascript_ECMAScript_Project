@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import './MyComponent.css';
 
 class MyComponent extends Component {
     //상태객체
     state = {
         value: 0,
         message: '',
-        username: ''
+        username: '',
+        isValid: false,
     };
     
     //event handler 함수
@@ -21,7 +23,7 @@ class MyComponent extends Component {
     //Component 메서드 재정의
     render() {
         const { name, age } = this.props; 
-        const { value, message, username } = this.state;
+        const { value, message, username, isValid } = this.state;
         const { handleChange } = this;
 
         return (
@@ -37,7 +39,9 @@ class MyComponent extends Component {
                 <input name="message" value={message} onChange={handleChange} />
                 <br />
                 <p>상태변수 username = {username}</p>
-                <input name="username" value={username} onChange={handleChange} />
+                <input name="username" value={username} onChange={handleChange} 
+                    className={isValid ? 'success':'failure'}
+                />
             </div>
         );
     }//render
