@@ -16,7 +16,7 @@
    위에서 아래로 한 번에 읽히는 것이 지금은 더 중요하기 때문입니다.
    --------------------------------------------------------- */
 
-import MessageBox from "./MessageBox.jsx";
+// import MessageBox from "./MessageBox.jsx";
 
 /* 부모(App)가 넘겨주는 값들 */
 function StudentForm({
@@ -111,7 +111,6 @@ function StudentForm({
                         />
                     </div>
 
-                    {/* 생년월일만 required 가 없다. 비워 두어도 된다. */}
                     <div className="form-group">
                         <label htmlFor="dateOfBirth">생년월일:</label>
                         <input
@@ -135,7 +134,7 @@ function StudentForm({
                         </button>
                     )}
 
-                    <MessageBox message={message} />
+                    {/* <MessageBox message={message} /> */}
                 </div>
             </form>
         </div>

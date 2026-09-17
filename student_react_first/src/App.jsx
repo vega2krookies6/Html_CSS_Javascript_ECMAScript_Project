@@ -79,10 +79,12 @@ function App() {
     // 이 한 줄은 지금 넣어야 한다. 없으면 제출할 때마다
     // 브라우저가 페이지를 새로 불러와 입력한 값이 날아간다.
     event.preventDefault();
+    console.log('handleSubmit called..');
   }//handleSubmit
 
   // 실습 5-9 에서 속을 채운다.
   function resetForm() {
+    console.log('resetForm called..');
   }//resetForm
 
 
