@@ -23,13 +23,14 @@ export const EMPTY_FORM = {
 
 // 폼 state 를 서버가 받는 구조로 바꾼다.
 // 4부에서 FormData 로 하던 일인데, 이제 값이 form 객체에 이미 있다.
+// 백엔드 StudentDTO의 Request (요청) 객체
 export function toRequest(form) {
     return {
         name: form.name.trim(),
         studentNumber: form.studentNumber.trim(),
         detailRequest: {
-            address: form.address.trim(),
-            phoneNumber: form.phoneNumber.trim(),
+            address: form.address.trim() || null,
+            phoneNumber: form.phoneNumber.trim() || null,
             // 빈 문자열("")도 걸러야 하므로 여기서는 ?? 가 아니라 || 를 쓴다.
             email: form.email.trim() || null,
             dateOfBirth: form.dateOfBirth || null,
@@ -39,6 +40,7 @@ export function toRequest(form) {
 
 // 서버에서 받은 학생 정보를 폼 state 모양으로 바꾼다.
 // 수정 버튼을 눌렀을 때 쓴다.
+// 백엔드 StudentDTO의 Response (응답) 객체
 export function toFormValues(student) {
     const detail = student.detail;
 

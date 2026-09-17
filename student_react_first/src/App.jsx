@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
+
 import { fetchStudents } from './api/studentApi';
-import './style.css'
 import StudentTable from './components/StudentTable';
+import { EMPTY_FORM } from './lib/studentData';
+
+import './style.css'
 
 function App() {
   //상태 변수 선언
   const [students, setStudents] = useState([]);          // 표에 그릴 학생 목록
-  //const [form, setForm] = useState(EMPTY_FORM);          // 입력칸 여섯 개의 값
+  const [form, setForm] = useState(EMPTY_FORM);          // 입력칸 여섯 개의 값
   const [editingId, setEditingId] = useState(null);      // null 이면 등록 모드
   const [loading, setLoading] = useState(false);         // "로딩 중..." 을 보일까
   const [listError, setListError] = useState(null);      // 표 자리에 낼 오류 문구
@@ -48,6 +51,24 @@ function App() {
 
   function handleDelete() {
   }
+
+  function handleChange(event) {
+    // 어느 칸이 바뀌었는지, 값은 무엇인지 꺼낸다.
+    //   event.target       방금 글자를 친 input
+    //   event.target.name  그 input 에 적어 둔 name
+    const name = event.target.name;
+    const value = event.target.value;
+ 
+    // 기존 값을 그대로 복사한 새 객체를 만든다.
+    const next = { ...form };
+ 
+    // 바뀐 칸 하나만 덮어쓴다.
+    // next.name 이 아니라 next[name] 인 이유는
+    // 어느 칸인지가 name 변수에 담겨 있기 때문이다.
+    next[name] = value;
+ 
+    setForm(next);
+}
 
 
   return (
