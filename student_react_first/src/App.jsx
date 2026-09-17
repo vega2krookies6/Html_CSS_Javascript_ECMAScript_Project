@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { fetchStudents } from './api/studentApi';
+import { fetchStudents, createStudent, updateStudent } from './api/studentApi';
 import StudentTable from './components/StudentTable';
 import StudentForm from './components/StudentForm';
-import { EMPTY_FORM } from './lib/studentData';
+import { EMPTY_FORM, toRequest } from './lib/studentData';
+import { validateStudent } from './lib/validation';
 
 import './style.css'
 
@@ -105,32 +106,32 @@ function App() {
     // 이 한 줄은 지금 넣어야 한다. 없으면 제출할 때마다
     // 브라우저가 페이지를 새로 불러와 입력한 값이 날아간다.
     event.preventDefault();
-    
-        setMessage(null);            // 앞선 메시지를 지운다
- 
+
+    setMessage(null);            // 앞선 메시지를 지운다
+
     const studentData = toRequest(form);
- 
+
     // 검사에 걸리면 메시지만 보여 주고 끝낸다.
     const errorMessage = validateStudent(studentData);
     if (errorMessage) {
-        setMessage({ text: errorMessage, type: "error" });
-        return;
+      setMessage({ text: errorMessage, type: "error" });
+      return;
     }
- 
+
     try {
-        if (isEditing) {
-            await updateStudent(editingId, studentData);
-            setMessage({ text: "학생 정보가 성공적으로 수정되었습니다.", type: "success" });
-        } else {
-            await createStudent(studentData);
-            setMessage({ text: "학생이 성공적으로 등록되었습니다.", type: "success" });
-        }
- 
-        resetForm();
-        await loadStudents();         // 목록 새로고침
+      if (isEditing) {
+        await updateStudent(editingId, studentData);
+        setMessage({ text: "학생 정보가 성공적으로 수정되었습니다.", type: "success" });
+      } else {
+        await createStudent(studentData);
+        setMessage({ text: "학생이 성공적으로 등록되었습니다.", type: "success" });
+      }
+
+      resetForm();
+      await loadStudents();         // 목록 새로고침
     } catch (error) {
-        console.error("Error:", error);
-        setMessage({ text: error.message, type: "error" });   // 서버가 보낸 실제 메시지
+      console.error("Error:", error);
+      setMessage({ text: error.message, type: "error" });   // 서버가 보낸 실제 메시지
     }
 
 
