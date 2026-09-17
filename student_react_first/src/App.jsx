@@ -47,10 +47,12 @@ function App() {
   }, []);
 
   function handleEdit() {
-  }
+
+  }//handleEdit
 
   function handleDelete() {
-  }
+
+  }//handleDelete
 
   function handleChange(event) {
     // 어느 칸이 바뀌었는지, 값은 무엇인지 꺼낸다.
@@ -58,18 +60,30 @@ function App() {
     //   event.target.name  그 input 에 적어 둔 name
     const name = event.target.name;
     const value = event.target.value;
- 
+
     // 기존 값을 그대로 복사한 새 객체를 만든다.
     const next = { ...form };
     console.log('next :' + next)
- 
+
     // 바뀐 칸 하나만 덮어쓴다.
     // next.name 이 아니라 next[name] 인 이유는
     // 어느 칸인지가 name 변수에 담겨 있기 때문이다.
     next[name] = value;
- 
+
     setForm(next);
-}
+  }//handleChange
+
+  // 실습 5-8 에서 속을 채운다.
+  function handleSubmit(event) {
+    // 이 한 줄은 지금 넣어야 한다. 없으면 제출할 때마다
+    // 브라우저가 페이지를 새로 불러와 입력한 값이 날아간다.
+    event.preventDefault();
+  }//handleSubmit
+
+  // 실습 5-9 에서 속을 채운다.
+  function resetForm() {
+  }//resetForm
+
 
 
   return (
