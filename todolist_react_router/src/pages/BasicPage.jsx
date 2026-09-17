@@ -14,7 +14,7 @@ import MyComponentFunc from "../components/MyComponentFunc.jsx";
 
 function BasicPage() {
     return (
-        <div className="basic-page">
+        <div>
             <p className="basic-hint">
                 두 컴포넌트는 화면도 기능도 같습니다. 적는 방법만 다릅니다.
                 양쪽의 입력칸에 글자를 쳐 보고, 증가 버튼도 눌러 보세요.
