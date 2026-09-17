@@ -7,6 +7,8 @@ import { EMPTY_FORM } from './lib/studentData';
 
 import './style.css'
 
+const MESSAGE_TIMEOUT = 3000
+
 function App() {
   //상태 변수 선언
   const [students, setStudents] = useState([]);          // 표에 그릴 학생 목록
@@ -46,6 +48,30 @@ function App() {
     // eslint-disable-next-line react-hooks/set-state-in-effect -- 처음 한 번 목록을 불러오는 것은 의도된 동작입니다
     loadStudents();
   }, []);
+
+  /* -----------------------------------------------------
+       성공 메시지는 3초 뒤에 저절로 사라진다
+       4부에서 messageTimer 변수를 두고 clearTimeout 을 부르던 일을
+       useEffect 가 대신한다. return 으로 돌려준 함수를 정리 함수라고
+       하는데, 메시지가 바뀌기 직전에 React 가 이것을 먼저 불러 준다.
+       그래서 이전 예약이 새 메시지를 지워 버리는 일이 없다.
+    ----------------------------------------------------- */
+  useEffect(() => {
+    if (!message) {
+      return;
+    }
+
+    // 오류 메시지는 사용자가 고칠 때까지 남겨 둔다.
+    if (message.type !== "success") {
+      return;
+    }
+
+    const timer = setTimeout(() => setMessage(null), MESSAGE_TIMEOUT);
+
+    // 정리 함수 — 다음 번 실행 직전과 화면에서 사라질 때 불린다.
+    return () => clearTimeout(timer);
+  }, [message]);
+
 
   function handleEdit() {
 
