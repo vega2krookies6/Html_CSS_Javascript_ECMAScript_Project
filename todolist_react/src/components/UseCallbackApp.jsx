@@ -18,6 +18,7 @@ function UseCallbackApp() {
  
     set.add(printLog);                  // 지금의 printLog 를 넣어 본다
     console.log("set.size :", set.size);
+    console.log("set content :", set);
  
     return (
         <div>
