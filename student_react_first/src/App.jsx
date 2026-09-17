@@ -61,6 +61,7 @@ function App() {
  
     // 기존 값을 그대로 복사한 새 객체를 만든다.
     const next = { ...form };
+    console.log('next :' + next)
  
     // 바뀐 칸 하나만 덮어쓴다.
     // next.name 이 아니라 next[name] 인 이유는
