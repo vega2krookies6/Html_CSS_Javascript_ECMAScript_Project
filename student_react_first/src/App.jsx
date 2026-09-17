@@ -139,7 +139,9 @@ function App() {
 
   // 실습 5-9 에서 속을 채운다.
   function resetForm() {
-    console.log('resetForm called..');
+    setForm(EMPTY_FORM);
+    setEditingId(null);
+
   }//resetForm
 
 
