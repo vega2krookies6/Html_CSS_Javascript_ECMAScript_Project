@@ -64,6 +64,20 @@ function TodoPage() {
     }
   };
 
+
+  // const handleToggle = (id) => {
+  //   setTodos(
+  //     todos.map((todo) =>
+  //       todo.id === id ? { ...todo, checked: !todo.checked } : todo
+  //     )
+  //   );
+  // };
+  // const handleRemove = (id) => {
+  //   setTodos(
+  //     todos.filter((todo) => todo.id !== id)
+  //   );
+  // };
+
   /* setTodos 에 값 대신 함수를 넘기면 React 가 최신 목록을
      prev 로 넣어 준다. todos 를 읽지 않으므로 의존성이 [] 가 되고,
      그래서 이 함수는 앱이 사는 동안 딱 한 번만 만들어진다. */
