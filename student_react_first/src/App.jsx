@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { fetchStudents } from './api/studentApi';
 import StudentTable from './components/StudentTable';
+import StudentForm from './components/StudentForm';
 import { EMPTY_FORM } from './lib/studentData';
 
 import './style.css'
@@ -89,6 +90,15 @@ function App() {
   return (
     <>
       <h1>학생 관리 시스템</h1>
+
+      <StudentForm
+        form={form}
+        isEditing={isEditing}
+        message={message}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onCancel={resetForm}
+      />
 
       <StudentTable
         students={students}
