@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { fetchStudents, createStudent, updateStudent } from './api/studentApi';
 import StudentTable from './components/StudentTable';
@@ -22,6 +22,11 @@ function App() {
 
   // 수정 모드인지는 editingId 로 알 수 있으므로 따로 state 를 두지 않는다.
   const isEditing = editingId !== null;
+
+  /* useRef 는 화면에 그려진 실제 요소를 붙잡아 두는 자리다.
+   state 와 달리 값이 바뀌어도 화면을 다시 그리지 않는다.
+   수정 버튼을 눌렀을 때 폼으로 스크롤하는 데만 쓴다. */
+  const formRef = useRef(null);
 
   async function loadStudents() {
     setLoading(true);
@@ -157,6 +162,7 @@ function App() {
         onChange={handleChange}
         onSubmit={handleSubmit}
         onCancel={resetForm}
+        containerRef={formRef}
       />
 
       <StudentTable
