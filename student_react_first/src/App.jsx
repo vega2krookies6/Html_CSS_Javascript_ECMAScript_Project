@@ -7,7 +7,7 @@ import { EMPTY_FORM } from './lib/studentData';
 
 import './style.css'
 
-const MESSAGE_TIMEOUT = 3000
+const MESSAGE_TIMEOUT = 3000;
 
 function App() {
   //상태 변수 선언
@@ -68,7 +68,7 @@ function App() {
 
     const timer = setTimeout(() => setMessage(null), MESSAGE_TIMEOUT);
 
-    // 정리 함수 — 다음 번 실행 직전과 화면에서 사라질 때 불린다.
+    // 정리(clean up) 함수 — 다음 번 실행 직전과 화면에서 사라질 때 불린다.
     return () => clearTimeout(timer);
   }, [message]);
 
@@ -101,11 +101,39 @@ function App() {
   }//handleChange
 
   // 실습 5-8 에서 속을 채운다.
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     // 이 한 줄은 지금 넣어야 한다. 없으면 제출할 때마다
     // 브라우저가 페이지를 새로 불러와 입력한 값이 날아간다.
     event.preventDefault();
-    console.log('handleSubmit called..');
+    
+        setMessage(null);            // 앞선 메시지를 지운다
+ 
+    const studentData = toRequest(form);
+ 
+    // 검사에 걸리면 메시지만 보여 주고 끝낸다.
+    const errorMessage = validateStudent(studentData);
+    if (errorMessage) {
+        setMessage({ text: errorMessage, type: "error" });
+        return;
+    }
+ 
+    try {
+        if (isEditing) {
+            await updateStudent(editingId, studentData);
+            setMessage({ text: "학생 정보가 성공적으로 수정되었습니다.", type: "success" });
+        } else {
+            await createStudent(studentData);
+            setMessage({ text: "학생이 성공적으로 등록되었습니다.", type: "success" });
+        }
+ 
+        resetForm();
+        await loadStudents();         // 목록 새로고침
+    } catch (error) {
+        console.error("Error:", error);
+        setMessage({ text: error.message, type: "error" });   // 서버가 보낸 실제 메시지
+    }
+
+
   }//handleSubmit
 
   // 실습 5-9 에서 속을 채운다.
