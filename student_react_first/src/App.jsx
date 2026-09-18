@@ -188,11 +188,12 @@ function App() {
   }//handleSubmit
 
   // 실습 5-9 에서 속을 채운다.
-  function resetForm() {
+  //function resetForm() {
+  const resetForm = useCallback(() => {  
     setForm(EMPTY_FORM);
     setEditingId(null);
 
-  }//resetForm
+  },[])//resetForm
 
 
 
