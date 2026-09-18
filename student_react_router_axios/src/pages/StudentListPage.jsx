@@ -31,7 +31,8 @@ function StudentListPage() {
        그래서 "옮겨 오면서 받은 메시지" 를 처음 값으로 두면 딱 맞는다.
        useEffect 로 옮겨 담을 필요가 없다. */
     const [message, setMessage] = useState(
-        location.state?.message ? { text: location.state.message, type: "success" } : null
+        location.state?.message ? 
+        { text: location.state.message, type: "success" } : null
     );
 
     async function loadStudents() {
