@@ -14,6 +14,7 @@ import { STUDENTS_PATH } from "../config.js";
 /* axios 는 서버가 준 본문을 response.data 에 담아 준다.
    5부에서 await response.json() 을 부르던 일이 없어졌다. */
 export const fetchStudents = async () => {
+    console.log('API fetchStudents');
     const response = await client.get(STUDENTS_PATH);
     return response.data;
 };
