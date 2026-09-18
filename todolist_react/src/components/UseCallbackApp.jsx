@@ -10,7 +10,7 @@ function UseCallbackApp() {
     const increase = () => setCount(count + 1);
  
     // (A) 그냥 적은 함수
-    // const printLog = () => console.log("re-execute");
+    //const printLog = () => console.log("re-execute");
  
     // (B) useCallback 으로 감싼 함수 — (A) 를 지우고 아래 두 줄을 살린다.
     //     맨 위 import 에 useCallback 도 함께 더해야 한다.

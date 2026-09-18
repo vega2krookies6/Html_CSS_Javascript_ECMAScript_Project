@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { fetchStudents, createStudent, updateStudent, deleteStudent, fetchStudent } from './api/studentApi';
 import StudentTable from './components/StudentTable';
@@ -37,7 +37,8 @@ function App() {
   }
 
 
-  async function loadStudents() {
+  //async function loadStudents() {
+  const loadStudents = useCallback(async () => {
     setLoading(true);
     setListError(null);
 
@@ -56,7 +57,7 @@ function App() {
       // 성공하든 실패하든 로딩 표시는 반드시 끈다.
       setLoading(false);
     }
-  }
+  },[]);
 
   useEffect(() => {
     // 아래 주석은 ESLint 에게 "이 경고는 알고 있다"고 알려 주는 줄이다.
