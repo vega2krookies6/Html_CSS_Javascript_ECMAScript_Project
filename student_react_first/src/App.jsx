@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { fetchStudents, createStudent, updateStudent, deleteStudent, fetchStudent } from './api/studentApi';
 import StudentTable from './components/StudentTable';
-import StudentForm from './components/StudentForm';
+//import StudentForm from './components/StudentForm';
+import StudentForm from './components/StudentFormField';
 import { EMPTY_FORM, toFormValues, toRequest } from './lib/studentData';
 import { validateStudent } from './lib/validation';
 import { APP_MODE } from "./config.js";
