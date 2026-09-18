@@ -89,7 +89,8 @@ function App() {
   }, [message]);
 
 
-  async function handleEdit(studentId) {
+  //async function handleEdit(studentId) {
+  const handleEdit = useCallback(async (studentId) => {  
     setMessage(null);            // 앞선 메시지를 지운다
 
     try {
@@ -109,7 +110,7 @@ function App() {
       console.error("Error:", error);
       setMessage({ text: error.message, type: "error" });
     }
-  }//handleEdit
+  },[]);//handleEdit
 
   async function handleDelete(studentId) {
     if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
