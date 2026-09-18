@@ -13,6 +13,7 @@
    --------------------------------------------------------- */
 
 import { memo } from "react";
+import { Link } from "react-router-dom";
 
 // 표의 열 개수. colSpan 에 쓴다.
 const COLUMN_COUNT = 7;
@@ -23,7 +24,7 @@ const COLUMN_COUNT = 7;
      error     목록을 못 불러왔을 때의 메시지 (없으면 null)
      onEdit    수정 버튼을 눌렀을 때 부를 함수
      onDelete  삭제 버튼을 눌렀을 때 부를 함수 */
-function StudentTable({ students, loading, error, onEdit, onDelete }) {
+function StudentTable({ students, loading, error, onDelete }) {
     /* tbody 안에 무엇을 그릴지 세 경우로 나눠서 정한다.
        JSX 안에 && 와 ? : 를 이어 쓰면 읽기 어려우므로,
        먼저 rows 에 담아 두고 아래 표 안에 끼워 넣는다. */
@@ -61,8 +62,13 @@ function StudentTable({ students, loading, error, onEdit, onDelete }) {
                     {/* data-id 도 Number(id) 도 필요 없다. id 를 그대로 넘긴다.
                         onClick 에는 함수를 "넘겨야" 한다. onEdit(student.id) 라고
                         쓰면 그리는 순간 바로 실행되므로 () => 로 감싼다. */}
-                    <button type="button" className="edit-btn"
-                            onClick={() => onEdit(student.id)}>수정</button>
+                    {/* <button type="button" className="edit-btn"
+                            onClick={() => onEdit(student.id)}>수정</button> */}
+                            
+                    {/* to 에 넣은 주소로 옮겨 간다. /edit/3 처럼 만들어진다.
+                        주소가 바뀌면 StudentFormPage 가 useParams 로 3 을 읽는다. */}
+                    <Link to={`/edit/${student.id}`} className="edit-btn">수정</Link>
+
                     <button type="button" className="delete-btn"
                             onClick={() => onDelete(student.id)}>삭제</button>
                 </td>
