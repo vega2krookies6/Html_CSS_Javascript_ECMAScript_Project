@@ -20,7 +20,7 @@ import {
     deleteStudent,
 } from "../api/studentApi.js";
 
-/* create 에 넘긴 함수가 store 의 내용을 돌려준다.
+/* create 에 넘긴 함수가 store 의 내용을 돌려줍니다.
      set  값을 바꾼다. useState 의 setter 와 성격이 같다.
      get  지금 값을 읽는다. 함수 안에서 다른 값이 필요할 때 쓴다.
 
