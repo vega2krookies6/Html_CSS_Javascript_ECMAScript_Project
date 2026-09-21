@@ -33,6 +33,8 @@ function StudentFormPage() {
     const saveStudent = useStudentStore((s) => s.saveStudent);
     const showError = useStudentStore((s) => s.showError);
     const clearMessage = useStudentStore((s) => s.clearMessage);
+    
+    //const loading = useStudentStore((s) => s.loading);
 
     // 수정 모드면 서버에서 그 학생을 불러와 폼을 채운다.
     useEffect(() => {
@@ -46,6 +48,7 @@ function StudentFormPage() {
             setLoading(true);
             try {
                 const student = await fetchStudent(id);
+                // 불러오는 도중에 다른 페이지로 떠났으면 state 를 건드리지 않는다.
                 if (!cancelled) {
                     setForm(toFormValues(student));
                 }
