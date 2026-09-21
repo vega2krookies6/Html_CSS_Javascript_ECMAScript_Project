@@ -1,41 +1,43 @@
 /* ---------------------------------------------------------
    학생 등록 · 수정 페이지 — 주소 "/new" 와 "/edit/:id"
-   등록인지 수정인지는 주소에 id 가 붙어 있는지로 가릅니다.
+   한 컴포넌트가 두 주소를 맡습니다. 등록인지 수정인지는
+   주소에 id 가 붙어 있는지로 가릅니다.
 
-   6부와 달라진 곳은 둘입니다.
-     (1) 서버에 보내는 일을 store 의 saveStudent 가 맡는다
-     (2) 메시지를 navigate 에 실어 보내지 않는다.
-         store 에 넣으면 목록 페이지에서 저절로 보인다.
+     /new       →  id 가 없다   →  등록 모드
+     /edit/3    →  id 가 "3"   →  수정 모드
 
-   form 은 그대로 이 페이지의 useState 에 둡니다. 입력 중인 값은
-   이 화면에서만 쓰고 버리는 것이라 store 에 둘 이유가 없습니다.
+   5부에서 useState 로 들고 있던 editingId 가 사라졌습니다.
+   그 값이 주소로 옮겨갔기 때문입니다. 덕분에 수정 화면에서
+   새로고침을 해도 수정 모드가 그대로 유지됩니다.
    --------------------------------------------------------- */
 
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
-import { fetchStudent } from "../api/studentApi.js";
+import { createStudent, fetchStudent, updateStudent } from "../api/studentApi.js";
 import { validateStudent } from "../lib/validation.js";
 import { EMPTY_FORM, toRequest, toFormValues } from "../lib/studentData.js";
-import { useStudentStore } from "../store/studentStore.js";
-import StudentForm from "../components/StudentForm.jsx";
+import StudentForm from "../components/StudentFormField.jsx";
 
 function StudentFormPage() {
+    /* useParams 는 주소의 edit/:id 자리에 있던 값을 돌려준다.
+       언제나 문자열이고, /new 처럼 그 자리가 없으면 undefined 다. */
     const { id } = useParams();
+    //id 값이 있다면 수정모드
     const isEditing = id !== undefined;
+
+    // useNavigate 는 "다른 주소로 옮겨 가는 함수" 를 돌려준다.
     const navigate = useNavigate();
 
-    // 입력 중인 값은 이 화면만의 것이다.
     const [form, setForm] = useState(EMPTY_FORM);
+    const [message, setMessage] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // 서버에 보내는 일과 메시지는 store 가 맡는다.
-    const saveStudent = useStudentStore((s) => s.saveStudent);
-    const showError = useStudentStore((s) => s.showError);
-    const clearMessage = useStudentStore((s) => s.clearMessage);
-
-    // 수정 모드면 서버에서 그 학생을 불러와 폼을 채운다.
+    /* 수정 모드면 서버에서 그 학생을 불러와 폼을 채운다.
+       의존성 배열에 id 가 있으므로, 주소가 /edit/3 에서 /edit/7 로
+       바뀌면 이 효과가 다시 실행된다. */
     useEffect(() => {
+        //등록모드이면 처리 안됨
         if (!isEditing) {
             return;
         }
@@ -46,13 +48,14 @@ function StudentFormPage() {
             setLoading(true);
             try {
                 const student = await fetchStudent(id);
+                // 불러오는 도중에 다른 페이지로 떠났으면 state 를 건드리지 않는다.
                 if (!cancelled) {
                     setForm(toFormValues(student));
                 }
             } catch (error) {
                 console.error("Error:", error);
                 if (!cancelled) {
-                    showError(error.message);
+                    setMessage({ text: error.message, type: "error" });
                 }
             } finally {
                 if (!cancelled) {
@@ -67,7 +70,7 @@ function StudentFormPage() {
         return () => {
             cancelled = true;
         };
-    }, [id, isEditing, showError]);
+    }, [id, isEditing]);
 
     function handleChange(event) {
         // 입력칸 여섯 개가 모두 이 함수 하나를 부른다.
@@ -82,32 +85,47 @@ function StudentFormPage() {
 
     async function handleSubmit(event) {
         event.preventDefault();
-        clearMessage();
+        setMessage(null);
 
         const studentData = toRequest(form);
 
         const errorMessage = validateStudent(studentData);
         if (errorMessage) {
-            showError(errorMessage);
+            setMessage({ text: errorMessage, type: "error" });
             return;
         }
 
-        /* 성공하면 true 가 돌아온다. 성공 문구는 store 가 이미 넣어 두었으므로
-           여기서는 옮겨 가기만 하면 된다. navigate 에 값을 실을 필요가 없다. */
-        const saved = await saveStudent(isEditing ? id : null, studentData);
+        try {
+            //수정
+            if (isEditing) {
+                await updateStudent(id, studentData);
+            } else {
+                await createStudent(studentData);
+            }
 
-        if (saved) {
-            navigate("/");
+            /* 목록으로 돌아가면서 보여 줄 메시지를 함께 실어 보낸다.
+               받는 쪽은 StudentListPage 의 useLocation() 이다. */
+            const text = isEditing
+                ? "학생 정보가 성공적으로 수정되었습니다."
+                : "학생이 성공적으로 등록되었습니다.";
+
+            // navigate("/") 목록 페이지로 포워딩 해라    
+            navigate("/", { state: { message: text } });
+        } catch (error) {
+            console.error("Error:", error);
+            setMessage({ text: error.message, type: "error" });
         }
     }
 
+    // 취소하면 목록으로 돌아간다.
     function handleCancel() {
-        clearMessage();
         navigate("/");
     }
 
     return (
         <div className="page">
+            {/* 폼만 있는 페이지이므로 목록으로 돌아갈 길을 위쪽에 둔다.
+                머리말의 내비게이션과 겹치지만, 보고 있던 자리에서 가까운 편이 낫다. */}
             <Link to="/" className="back-link">&larr; 학생 목록으로</Link>
 
             {loading && <div className="loading">불러오는 중...</div>}
@@ -115,6 +133,7 @@ function StudentFormPage() {
             <StudentForm
                 form={form}
                 isEditing={isEditing}
+                message={message}
                 onChange={handleChange}
                 onSubmit={handleSubmit}
                 onCancel={handleCancel}
