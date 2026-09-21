@@ -458,4 +458,27 @@ a.edit-btn {
 /* 머리말 안에서는 부모 글자가 작아 0.5em 이 너무 작다. 크기만 따로 준다. */
 .app-brand .app-mode {
     font-size: 0.8rem;
-}      
+}
+
+/* Zustand 적용 이후에 더한 것 — 화면 위쪽(AppMessage)의 메시지 자리 */
+.app-message {
+    max-width: 1200px;
+    margin: 0 auto 16px;
+    /* 아래 여백 16px — 이것이 없으면 메시지가 목록 제목에 딱 붙는다 */
+    padding: 0 20px;
+    min-height: 24px;
+    /* 메시지가 없을 때도 자리를 비워 두어 화면이 덜컥이지 않게 한다 */
+}
+/* 제목과 모드 배지를 한 덩어리로 묶는다.
+   머리말이 space-between 이라 자식이 둘이어야 배치가 유지된다. */
+.app-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+/* 머리말 안에서는 부모 글자가 작아 0.5em 이 너무 작다. 크기만 따로 준다. */
+.app-brand .app-mode {
+    font-size: 0.8rem;
+}
