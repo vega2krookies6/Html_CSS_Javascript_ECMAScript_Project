@@ -1,97 +1,49 @@
 /* ---------------------------------------------------------
    학생 목록 페이지 — 주소 "/"
-   5부 App.jsx 가 하던 일 중 "목록 불러오기" 와 "삭제" 가
-   여기로 왔습니다.
+   6부에서는 이 페이지가 students · loading · listError · message 를
+   직접 갖고 있었습니다. 그 넷이 모두 store 로 옮겨갔습니다.
 
-   등록·수정 폼은 다른 페이지로 떨어져 나갔으므로
-   이 페이지는 form · editingId 같은 값을 갖지 않습니다.
+   그래서 이 파일에 useState 가 한 줄도 없습니다. 하는 일은 둘뿐입니다.
+     (1) 아직 안 불러왔으면 목록을 불러오라고 시킨다
+     (2) store 에서 꺼낸 값을 표에 넘긴다
    --------------------------------------------------------- */
 
-import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
-import { fetchStudents, deleteStudent } from "../api/studentApi.js";
+import { useStudentStore } from "../store/studentStore.js";
 import StudentTable from "../components/StudentTable.jsx";
-import MessageBox from "../components/MessageBox.jsx";
-
-// 성공 메시지가 저절로 사라지기까지의 시간(ms)
-const MESSAGE_TIMEOUT = 3000;
 
 function StudentListPage() {
-    /* useLocation 은 지금 주소에 딸린 정보를 돌려준다.
-       등록·수정 페이지가 navigate("/", { state: { message } }) 로
-       실어 보낸 문구가 location.state.message 에 들어 있다. */
-    const location = useLocation();
+    /* 필요한 것만 하나씩 꺼낸다. store 전체를 꺼내면
+       상관없는 값이 바뀔 때도 이 페이지가 다시 그려진다. */
+    const students = useStudentStore((s) => s.students);
+    const loading = useStudentStore((s) => s.loading);
+    const listError = useStudentStore((s) => s.listError);
+    const loaded = useStudentStore((s) => s.loaded);
 
-    const [students, setStudents] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [listError, setListError] = useState(null);
+    const loadStudents = useStudentStore((s) => s.loadStudents);
+    const removeStudent = useStudentStore((s) => s.removeStudent);
 
-    /* useState 에 넘긴 값은 첫 렌더에서 한 번만 쓰인다.
-       그래서 "옮겨 오면서 받은 메시지" 를 처음 값으로 두면 딱 맞는다.
-       useEffect 로 옮겨 담을 필요가 없다. */
-    const [message, setMessage] = useState(
-        location.state?.message ? 
-        { text: location.state.message, type: "success" } : null
-    );
-
-    async function loadStudents() {
-        setLoading(true);
-        setListError(null);
-
-        try {
-            const data = await fetchStudents();
-            setStudents(data);
-        } catch (error) {
-            console.error("Error:", error);
-            setMessage({ text: error.message, type: "error" });
-            setListError("오류: 데이터를 불러올 수 없습니다.");
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    /* 이 페이지가 화면에 붙을 때 한 번 목록을 불러온다.
-       5부에서는 등록에 성공한 뒤 loadStudents() 를 직접 다시 불렀지만,
-       이제는 폼 페이지에서 "/" 로 옮겨 오면 이 페이지가 새로 붙으므로
-       저절로 다시 불러옵니다. */
+    /* 한 번도 안 불러왔을 때만 부른다.
+       6부에서는 이 페이지로 돌아올 때마다 서버를 다시 불렀습니다.
+       store 는 페이지가 바뀌어도 살아 있으므로 그럴 필요가 없습니다. */
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- 처음 한 번 목록을 불러오는 것은 의도된 동작입니다
-        loadStudents();
-    }, []);
-
-    // 성공 메시지는 3초 뒤에 저절로 사라진다.
-    useEffect(() => {
-        if (!message) {
-            return;
+        if (!loaded) {
+            loadStudents();
         }
-        if (message.type !== "success") {
-            return;
-        }
-
-        const timer = setTimeout(() => setMessage(null), MESSAGE_TIMEOUT);
-        return () => clearTimeout(timer);
-    }, [message]);
+    }, [loaded, loadStudents]);
 
     async function handleDelete(studentId) {
         if (!confirm("정말로 이 학생을 삭제하시겠습니까?")) {
             return;
         }
 
-        try {
-            await deleteStudent(studentId);
-            setMessage({ text: "학생이 성공적으로 삭제되었습니다.", type: "success" });
-            await loadStudents();
-        } catch (error) {
-            console.error("Error:", error);
-            setMessage({ text: error.message, type: "error" });
-        }
+        // 지우고 목록을 다시 불러오는 일은 store 가 맡는다.
+        await removeStudent(studentId);
     }
 
     return (
         <div className="page">
-            <MessageBox message={message} />
-
             <StudentTable
                 students={students}
                 loading={loading}
